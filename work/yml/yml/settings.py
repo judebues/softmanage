@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Wordprocessing',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +76,13 @@ WSGI_APPLICATION = 'yml.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mshd',
+        'USER': 'root',     # 用户名，可以自己创建用户
+        'PASSWORD': '121511',  # 密码
+        'HOST': '39.105.162.163',  # mysql服务所在的主机ip
+        'PORT': '3306',         # mysql服务端口
+        'OPTIONS': {"init_command": "SET storage_engine=MyISAM"},
     }
 }
 
@@ -118,3 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+TEMPLATES_DIR=(
+    os.path.join(BASE_DIR,'templates')
+)

@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>mshd</title>
+</head>
+<body>
+    <h1>AllData</h1>
+    <table id="all_info_show" border="2">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>location</th>
+            <th>type</th>
+            <th>grade</th>
+            <th>note</th>
+            <th>reportingunit</th>
+        </tr>
+        {% for item in info %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.date|date:'Y-m-d H:i:s' }}</td>
+            <td>{{ item.location }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.grade }}</td>
+            <td>{{ item.note }}</td>
+            <td>{{ item.reportingunit }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
