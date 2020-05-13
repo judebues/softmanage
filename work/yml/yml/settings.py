@@ -25,7 +25,7 @@ SECRET_KEY = '5cf3*cvng4@e7w-+d()n3&_w6pz&351kohn5&%@$v3%0$uedu7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['39.105.162.163']
+ALLOWED_HOSTS = ['39.105.162.163','localhost']
 
 # Application definition
 
@@ -131,6 +131,9 @@ TEMPLATES_DIR=(
     os.path.join(BASE_DIR,'templates')
 )
 
+BASE_PATH=os.path.dirname(os.path.abspath(__file__))
+BASE_PATH=os.path.join(BASE_PATH,'../')
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_PATH, 'static'),
+    os.path.join(BASE_PATH, 'static/'),
 )

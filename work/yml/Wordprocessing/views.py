@@ -13,7 +13,7 @@ def home_page(request):
     return render(request,'index.html',{'info':result})
 
 # search info according the request
-def search_info(request):
+# def search_info(request):
     
 
 class CommdisasterViewSet(viewsets.ModelViewSet):
