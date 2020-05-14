@@ -4,7 +4,8 @@ from .models import Commdisaster
 from django.forms.models import model_to_dict
 from .serializers import CommdisasterSerializers
 from rest_framework import viewsets
-import os
+import os,json
+from .models import Commdisaster
 
 result = Commdisaster.objects.values()
 # Create your views here.
@@ -33,15 +34,26 @@ def upload_file(request):
                     #分块写入文件
                     for chunk in  File.chunks():
                         f.write(chunk)
+                writeToDb(absdir+"/static/filestore/%s" % File.name)
                 return HttpResponse("UPload over!")
             except FileNotFoundError as e:
                 print(e)
-                print('**************')
-
+                return HttpResponse("no error")
 
     else:
         return  render(request, "index.html",{'info':result})
     
+
+
+def writeToDb(filepath):
+    json_data=open(filepath,encoding='utf-8').read()
+    data=json.loads(json_data)
+    for item in data:
+        Commdisaster.objects.create(id=item.get('Code'),date=item.get('date'),
+        location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
+        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+    json_data.close()
+
 
 class CommdisasterViewSet(viewsets.ModelViewSet):
     queryset = Commdisaster.objects.all()

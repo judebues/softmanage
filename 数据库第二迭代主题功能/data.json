@@ -1,2 +1,21 @@
-{"Code":"3311111111113360001", "Date":"2020-02-01 00:00:00", "Location":null, "Type":"I", "Grade": "I", "Picture":null, "Note":null, "ReportingUnit":"5","Status":"I"}
-{"Code":"1111111111113360001", "Date":"2020-02-01 00:00:00", "Location":null, "Type":"I", "Grade": "I", "Picture":null, "Note":null, "ReportingUnit":"3","Status":"I"}
+[{
+    "Code":"3311111111113360001", 
+    "Date":"2020-02-01 00:00:00", 
+    "Location":null, 
+    "Type":"I", 
+    "Grade": "I",
+    "Picture":null, 
+    "Note":null, 
+    "ReportingUnit":"5",
+    "Status":"I"},
+{
+    "Code":"1111111111113360001", 
+    "Date":"2020-02-01 00:00:00", 
+    "Location":null, 
+    "Type":"I", 
+    "Grade": "I", 
+    "Picture":null, 
+    "Note":null, 
+    "ReportingUnit":"3",
+    "Status":"I"}
+]
