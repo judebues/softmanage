@@ -1,0 +1,5 @@
+在 本地mysql 文件运行 mshd.sql   就可以创建所有表及部分字段值
+程序主体是 JsonData.py 调用 Data.py 通过修改jsonData.py 构造函数及main函数中的参数 可以改变输入
+要读取的数据存储在data.json中 该文件路径在 jsonData.py 类的构造函数中读取。
+
+执行Data类 insert函数时，如果是第二次执行，需要手动删除数据库中已存入的数据，否则会报错。
