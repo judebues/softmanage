@@ -7,11 +7,12 @@ from rest_framework import viewsets
 import os,json
 from .models import Commdisaster
 
-result = Commdisaster.objects.values()
+
 # Create your views here.
 def home_page(request):
     # print(type(result))
     # result_list = [ item for item in result]
+    result = Commdisaster.objects.values()
     return render(request,'index.html',{'info':result})
 
 # search info according the request
@@ -41,6 +42,7 @@ def upload_file(request):
                 return HttpResponse("no error")
 
     else:
+        result = Commdisaster.objects.values()
         return  render(request, "index.html",{'info':result})
     
 
