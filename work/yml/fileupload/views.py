@@ -23,7 +23,7 @@ def upload_file(request):
         else:
             #打开特定的文件进行二进制的写操作
             #print(os.path.exists('/temp_file/'))
-            with open("fileupload/filestore/%s" % File.name, 'wb+') as f:
+            with open("/fileupload/filestore/%s" % File.name, 'wb+') as f:
                 #分块写入文件
                 for chunk in  File.chunks():
                     f.write(chunk)
