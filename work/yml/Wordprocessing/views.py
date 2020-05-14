@@ -47,12 +47,11 @@ def upload_file(request):
 
 def writeToDb(filepath):
     json_data=open(filepath,encoding='utf-8').read()
-    data=json.loads(json_data)
+    data=json.loads(json_data,strict=False)
     for item in data:
-        Commdisaster.objects.create(id=item.get('Code'),date=item.get('date'),
+        Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
         location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-    json_data.close()
 
 
 class CommdisasterViewSet(viewsets.ModelViewSet):
