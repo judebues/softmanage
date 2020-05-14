@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `mshd` default character set utf8 collate utf8_general_ci /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `mshd`;
 -- MySQL dump 10.13  Distrib 5.7.27, for Win64 (x86_64)
 --
 -- Host: localhost    Database: mshd
