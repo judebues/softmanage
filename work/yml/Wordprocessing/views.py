@@ -6,6 +6,9 @@ from .serializers import CommdisasterSerializers
 from rest_framework import viewsets
 import os,json
 from .models import Commdisaster
+from rest_framework.decorators import action
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 # Create your views here.
@@ -17,6 +20,16 @@ def home_page(request):
 
 # search info according the request
 # def search_info(request):
+def search(request):
+    if request.method == "POST":
+        search_code = request.POST.get('search')
+        if 1<len(search_code)<19:
+            return HttpResponse("数据格式输入错误，请重新输入")
+        elif len(search_code) < 1:
+            result = Commdisaster.objects.values()
+        else:
+            result = Commdisaster.objects.filter(id=search_code)
+    return render(request,'index.html',{'info':result})
 
 
 def upload_file(request):
@@ -59,3 +72,30 @@ def writeToDb(filepath):
 class CommdisasterViewSet(viewsets.ModelViewSet):
     queryset = Commdisaster.objects.all()
     serializer_class = CommdisasterSerializers
+    
+    # 返回时间顺序的所有数据。
+    @action(methods=['get'],detail=False)
+    def sort_by_time(self,request):
+        commdisaster = Commdisaster.objects.order_by('date')[:] 
+        # json data
+        serializer = CommdisasterSerializers(instance=commdisaster,many=True)
+        return Response(serializer.data)
+
+    @action(methods=['get'],detail=False)
+    def get_all_code(self,request):
+        code = Commdisaster.objects.values('id')
+        # serializer = CommdisasterSerializers(instance=code,many=True)
+        # return Response(serializer.data)
+        return Response(code)
+
+    @action(methods=['post','get'],detail=False)
+    def get_code_with_kd(self,request):
+        pk=request.POST.get('pk')
+        result = Commdisaster.objects.filter(id=pk)
+        serializer = CommdisasterSerializers(instance=result,many=True)
+        return Response(serializer.data)
+    # def plaintext(self, request, *args, **kwargs):
+    #     """自定义 Api 方法"""
+    #     model = self.get_object()
+    #     return Response(repr(model))
+

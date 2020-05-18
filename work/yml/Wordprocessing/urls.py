@@ -5,5 +5,5 @@ from . import views
 urlpatterns = [ 
     url(r'^upload/$', views.upload_file),
     url(r"^index/$",views.home_page,name="home"),
-    
+    url(r"^search/$",views.search,name='search'),   
 ]

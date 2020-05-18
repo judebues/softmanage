@@ -20,7 +20,7 @@ from django.conf.urls import url,include
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'commdisaster',views.CommdisasterViewSet)
+router.register(r'commdisaster',views.CommdisasterViewSet, basename='commdisaster')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,3 +29,4 @@ urlpatterns = [
     url(r'^',include('Wordprocessing.urls')),
     url(r'^fileupload/',include('fileupload.urls'))
 ]   
+

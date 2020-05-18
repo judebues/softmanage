@@ -46,7 +46,14 @@
                     <li><a href="#">灾情预测</a></li>
                 </ul>
             </li>        
+            <div>
+                <form method="post" action="/search/">
+                    {% csrf_token %}
+                    <input type="text" name="search">
+                    <input type="submit" value="查询">
+                </form>
+            </div>
         </ul>
-        
+    
     </center>      
 </div>
