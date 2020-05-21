@@ -11,6 +11,7 @@
         <input type="file" name="myfile">
         <input type="submit" value="上传">
     </form>
+
     <table id="all_info_show" border="2" >
         <tr>
             <th>ID</th>
@@ -33,5 +34,9 @@
         </tr>
         {% endfor %}
     </table>
+    <form method="get" action="/download/">
+        {% csrf_token %}
+        <input type="submit" value="下载">
+    </form>
 </body>
 </html>

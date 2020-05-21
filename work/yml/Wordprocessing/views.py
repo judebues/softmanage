@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,FileResponse
 from .models import Commdisaster
 from django.forms.models import model_to_dict
 from .serializers import CommdisasterSerializers
@@ -9,6 +9,9 @@ from .models import Commdisaster
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.core import serializers
+
+
 
 
 # Create your views here.
@@ -31,6 +34,30 @@ def search(request):
             result = Commdisaster.objects.filter(id=search_code)
     return render(request,'index.html',{'info':result})
 
+
+def download_file(request):
+    data=Commdisaster.objects.filter()
+    # print(type(data))
+    # print(data)
+    # data=Commdisaster.objects.all()
+    # print(type(data))
+    # print(data)
+    # print("********************")
+
+    # data=json.dumps(list(data),ensure_ascii=False)
+    data = serializers.serialize("json", data,ensure_ascii=False)
+    print(type(data))
+    # print(data)
+    # with open("data.json", "w") as fp:
+        # fp.write(json.dumps(data))
+    # print(data)
+    # response =FileResponse(json.dumps(data,ensure_ascii=False))
+    response =FileResponse(data)
+    response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
+    response['Content-Disposition'] = 'attachment;filename="data.json"'
+    return response
+    # return Response(response)
+    # return render(request,response)
 
 def upload_file(request):
     # 请求方法为PO
@@ -98,4 +125,5 @@ class CommdisasterViewSet(viewsets.ModelViewSet):
     #     """自定义 Api 方法"""
     #     model = self.get_object()
     #     return Response(repr(model))
+
 
