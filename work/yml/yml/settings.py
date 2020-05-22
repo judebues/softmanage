@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'Wordprocessing',
     'fileupload',
+    'secondtime',
 ]
 
 MIDDLEWARE = [

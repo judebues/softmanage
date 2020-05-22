@@ -18,15 +18,24 @@ from django.urls import path
 from Wordprocessing import views
 from django.conf.urls import url,include
 from rest_framework import routers
+from secondtime import views
 
 router = routers.DefaultRouter()
 router.register(r'commdisaster',views.CommdisasterViewSet, basename='commdisaster')
+router.register(r'commdisaster',views.CommdisasterViewSet, basename='commdisaster')
+router.register(r'civilstructure',views.CivilstructureViewSet, basename='civilstructure')
+router.register(r'deathstatistics',views.DeathstatisticsViewSet, basename='deathstatistics')
+router.register(r'collapserecord',views.CollapserecordViewSet, basename='collapserecord')
+router.register(r'disasterprediction',views.DisasterpredictionViewSet, basename='disasterprediction')
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/',include(router.urls)),
     url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),
     url(r'^',include('Wordprocessing.urls')),
-    url(r'^fileupload/',include('fileupload.urls'))
+    url(r'^fileupload/',include('fileupload.urls')),
+    url(r'^secondtime/',include('secondtime.urls')),
 ]   
 

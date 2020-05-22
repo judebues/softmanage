@@ -1,14 +1,15 @@
 {% load static %}
 <html>
 <head>
-    <title>mshd</title>
-    <link rel="stylesheet" href="../static/css/footer.css">
+    <title>第二次迭代mshd</title>
+    <link rel="stylesheet" href="/static/css/header.css">
 </head>
 <body>
     {% include 'header.html'%}
-    <form method="post" action="/upload/" enctype="multipart/form-data" style="margin-top:100px">
+    <form method="post" action="/secondtime/upload/" enctype="multipart/form-data" style="margin-top:100px">
         {% csrf_token %}
         <input type="file" name="myfile">
+        <input type="text" name="mscode" placeholder="Mscode">
         <input type="submit" value="上传">
     </form>
     <table id="all_info_show" border="2" >

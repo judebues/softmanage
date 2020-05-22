@@ -13,11 +13,8 @@ from django.core import serializers
 
 
 
-
 # Create your views here.
 def home_page(request):
-    # print(type(result))
-    # result_list = [ item for item in result]
     result = Commdisaster.objects.values()
     return render(request,'index.html',{'info':result})
 
@@ -37,31 +34,15 @@ def search(request):
 
 def download_file(request):
     data=Commdisaster.objects.filter()
-    # print(type(data))
-    # print(data)
-    # data=Commdisaster.objects.all()
-    # print(type(data))
-    # print(data)
-    # print("********************")
-
-    # data=json.dumps(list(data),ensure_ascii=False)
     data = serializers.serialize("json", data,ensure_ascii=False)
     print(type(data))
-    # print(data)
-    # with open("data.json", "w") as fp:
-        # fp.write(json.dumps(data))
-    # print(data)
-    # response =FileResponse(json.dumps(data,ensure_ascii=False))
     response =FileResponse(data)
     response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
     response['Content-Disposition'] = 'attachment;filename="data.json"'
     return response
-    # return Response(response)
-    # return render(request,response)
 
 def upload_file(request):
-    # 请求方法为PO
-    # ST时，进行处理
+    # 请求方法为POST时，进行处理
     if request.method == "POST":
         # 获取上传的文件，如果没有文件，则默认为None
         File = request.FILES.get("myfile", None)
@@ -69,12 +50,11 @@ def upload_file(request):
             return HttpResponse("没有需要上传的文件")
         else:
             absdir = os.path.dirname(os.path.abspath(__file__))
-            #打开特定的文件进行二进制的写操作
             try:
                 with open(absdir+"/static/filestore/%s" % File.name, 'wb+') as f:
-                    #分块写入文件
                     for chunk in  File.chunks():
                         f.write(chunk)
+                # wri]te the info to db
                 writeToDb(absdir+"/static/filestore/%s" % File.name)
                 return HttpResponse("UPload over!")
             except FileNotFoundError as e:
@@ -84,8 +64,6 @@ def upload_file(request):
     else:
         result = Commdisaster.objects.values()
         return  render(request, "index.html",{'info':result})
-    
-
 
 def writeToDb(filepath):
     json_data=open(filepath,encoding='utf-8').read()
@@ -95,11 +73,9 @@ def writeToDb(filepath):
         location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
 
-
 class CommdisasterViewSet(viewsets.ModelViewSet):
     queryset = Commdisaster.objects.all()
-    serializer_class = CommdisasterSerializers
-    
+    serializer_class = CommdisasterSerializers    
     # 返回时间顺序的所有数据。
     @action(methods=['get'],detail=False)
     def sort_by_time(self,request):
@@ -121,9 +97,8 @@ class CommdisasterViewSet(viewsets.ModelViewSet):
         result = Commdisaster.objects.filter(id=pk)
         serializer = CommdisasterSerializers(instance=result,many=True)
         return Response(serializer.data)
-    # def plaintext(self, request, *args, **kwargs):
-    #     """自定义 Api 方法"""
-    #     model = self.get_object()
-    #     return Response(repr(model))
+
+
+
 
 
