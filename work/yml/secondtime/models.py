@@ -43,6 +43,7 @@ from django.db import models
 #         db_table = 'street'
 
 # 次生灾害
+# 441
 class Collapserecord(models.Model):
     id = models.CharField(db_column='ID', primary_key=True, max_length=19)  # Field name made lowercase.
     date = models.DateTimeField()
@@ -57,6 +58,7 @@ class Collapserecord(models.Model):
         db_table = 'CollapseRecord'
         unique_together = (('id', 'date'),)
 
+# 336
 # 通信系统灾情统计表
 class Commdisaster(models.Model):
     id = models.CharField(db_column='ID', primary_key=True, max_length=19)  # Field name made lowercase.
@@ -72,6 +74,7 @@ class Commdisaster(models.Model):
         db_table = 'commdisaster'
         unique_together = (('id', 'date'),)
 
+# 221
 # 土木结构房屋破坏统计表
 class Civilstructure(models.Model):
     id = models.CharField(db_column='ID', primary_key=True, max_length=19)  # Field name made lowercase.
@@ -102,6 +105,7 @@ class Deathstatistics(models.Model):
         db_table = 'DeathStatistics'
         unique_together = (('id', 'date'),)
         
+# 552
 # 灾情预测
 class Disasterprediction(models.Model):
     id = models.CharField(db_column='ID', primary_key=True, max_length=19)  # Field name made lowercase.
@@ -121,7 +125,6 @@ class Disasterprediction(models.Model):
         managed = False
         db_table = 'DisasterPrediction'
         unique_together = (('id', 'date'),)
-
 
 # 向请求方输出在清数据信息表
 class Disasterrequest(models.Model):

@@ -19,14 +19,32 @@ def home_page(request):
 def search(request):
     if request.method == "POST":
         search_code = request.POST.get('search')
-        if 1<len(search_code)<19:
+        if len(search_code) != 19 and len(search_code)!=3: 
             return HttpResponse("数据格式输入错误，请重新输入")
         elif len(search_code) < 1:
-            result = Commdisaster.objects.values()
-        else:
-            result = Commdisaster.objects.filter(id=search_code)
-    return render(request,'index.html',{'info':result})
+            results = Commdisaster.objects.values()
+        elif len(search_code) == 19:
+            results = Commdisaster.objects.filter(id=search_code)
+        elif len(search_code) == 3:
+            if accordMscodeToTheClass(search_code)!=None:
+                results = accordMscodeToTheClass(search_code).objects.values()
+            else:
+                return HttpResponse("error")
+    return render(request,'secondindex.html',{'info':results})
 
+def accordMscodeToTheClass(mscode):
+    if mscode == '441':
+        return Collapserecord
+    elif mscode == '336':
+        return Commdisaster
+    elif mscode == '221':
+        return Civilstructure
+    elif mscode == '111':
+        return Deathstatistics
+    elif mscode == '552':
+        return Disasterprediction
+    else:
+        return None
 
 def download_file(request):
     data=Commdisaster.objects.filter()
@@ -39,7 +57,8 @@ def download_file(request):
 
 def upload_file(request):
     mscode = request.POST.get('mscode')
-    if len(mscode)<1:
+    
+    if len(mscode) < 1:
         return HttpResponse('mscode is error')
     # 请求方法为POST时，进行处理
     if request.method == "POST":
@@ -53,14 +72,11 @@ def upload_file(request):
                 with open(absdir+"/static/filestore/%s" % File.name, 'wb+') as f:
                     for chunk in  File.chunks():
                         f.write(chunk)
-                # wri]te the info to db
-                
-                writeToDb(absdir+"/static/filestore/%s" % File.name)
+                theWrongWayToStoreDb(absdir+"/static/filestore/%s" % File.name,mscode)
                 return HttpResponse("UPload over!")
             except FileNotFoundError as e:
                 print(e)
                 return HttpResponse("no error")
-
     else:
         result = Commdisaster.objects.values()
         return  render(request, "secondindex.html",{'info':result})
@@ -73,6 +89,48 @@ def writeToDb(filepath):
         location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
 
+def writeToDatabases(filepath,ClassName):
+    json_data=open(filepath,encoding='utf-8').read()
+    data=json.loads(json_data,strict=False)
+    for item in data:
+        temp = ClassName()
+        allattr=temp.__dict__.keys()
+        for i in range(len(allattr)):
+            temp.allattr[i]=item.get(allattr[i])
+        temp.save()
+        # ClassName.objects.create(id=item.get('Code'),date=item.get('Date'),
+        # location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
+        # note=item.get('Note'),reportingunit=item.get('ReportingUnit'))    
+
+def theWrongWayToStoreDb(filepath,mscode):
+    json_data=open(filepath,encoding='utf-8').read()
+    data=json.loads(json_data,strict=False)
+    if mscode == '441':
+        for item in data:
+            Collapserecord.objects.create(id=item.get('Code'),date=item.get('Date'),
+        location=item.get('Location'),type=item.get('Type'),status=item.get('Status'),
+        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+    elif mscode == '336':
+        for item in data:
+            Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
+        location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
+        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+    elif mscode == '221':
+        for item in data:
+            Civilstructure.objects.create(id=item.get('Code'),date=item.get('Date'),
+        location=item.get('Location'),basicallyintactsquare=item.get('Basicallyintactsquare'),
+        damagedsquare=item.get('Damagedsquare'),distoryedsquare=item.get('Distoryedsquare'),
+        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+    elif mscode == '111':
+        for item in data:
+            Deathstatistics.objects.create(id=item.get('Code'),date=item.get('Date'),
+        location=item.get('Location'),number=item.get('Number'),reportingunit=item.get('ReportingUnit'))
+    elif mscode == '552':
+        for item in data:
+            Disasterprediction.objects.create(id=item.get('Code'),date=item.get('Date'),
+        location=item.get('Location'),longitude=item.get('Longitude'),latitude=item.get('Latitude'),
+        depth=item.get('Depth'),magnitude=item.get('Magnitude'),itensity=item.get('Itensity'),
+        type=item.get('Type'),status=item.get('Status'),note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
 
 class CommdisasterViewSet(viewsets.ModelViewSet):
     queryset = Commdisaster.objects.all()
