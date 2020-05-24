@@ -57,3 +57,16 @@
     /* 鼠标选中二级菜单内容时 */
     display: block;
 }
+
+.first {
+    width: 60%;
+    background:#FFF; 
+    float:left;     
+    border: 1px solid #3B6273;
+}
+.second {
+    width: 35%;
+    background:#FFF; 
+    float:right;           
+    border: 1px solid #3B6273;
+}

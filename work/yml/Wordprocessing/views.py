@@ -13,6 +13,7 @@ from django.core import serializers
 
 
 
+
 # Create your views here.
 def home_page(request):
     result = Commdisaster.objects.values()
@@ -102,3 +103,18 @@ class CommdisasterViewSet(viewsets.ModelViewSet):
 
 
 
+def commdisaster(request):
+    result = Commdisaster.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+def deathstatistics(request):
+    result = Deathstatistics.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+def disasterprediction(request):
+    result = Disasterprediction.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+def collapserecord(request):
+    result = Collapserecord.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+def civilstructure(request):
+    result = Civilstructure.objects.values()
+    return render(request,'secondindex.html',{'info':result})

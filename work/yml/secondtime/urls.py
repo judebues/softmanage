@@ -15,5 +15,12 @@ urlpatterns = [
     url(r'^upload/$', views.upload_file),
     url(r"^download/$",views.download_file,name='down'),
     url(r"^index/$",views.home_page,name="home"),
-    url(r"^search/$",views.search,name='search'),   
+    url(r"^Commdisaster/$",views.commdisaster), 
+    url(r"^Deathstatistics/$",views.deathstatistics), 
+    url(r"^Disasterprediction/$",views.disasterprediction), 
+    url(r"^Collapserecord/$",views.collapserecord), 
+    url(r"^Civilstructure/$",views.civilstructure), 
+    url(r"^search/$",views.search), 
+    url(r'^delete/(\w+)$',views.delete,name='delete'),
+    url(r'^send/$',views.send,name="send"),
 ]

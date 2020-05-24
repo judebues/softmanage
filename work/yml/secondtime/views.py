@@ -14,6 +14,20 @@ def home_page(request):
     result = Commdisaster.objects.values()
     return render(request,'secondindex.html',{'info':result})
 
+def delete(request,nid):
+    print(request)
+    print(nid)
+    Commdisaster.objects.filter(id=nid).delete()
+    result = Commdisaster.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+
+def send(request):
+    return render(request,'send.html',)
+
+def sendinfo(request):
+    return HttpResponse("hello")
+
+
 # search info according the request
 # def search_info(request):
 def search(request):
@@ -214,3 +228,20 @@ class DisasterpredictionViewSet(viewsets.ModelViewSet):
         result = Disasterprediction.objects.filter(id=pk)
         serializer = DisasterpredictionSerializers(instance=result,many=True)
         return Response(serializer.data)
+
+
+def commdisaster(request):
+    result = Commdisaster.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+def deathstatistics(request):
+    result = Deathstatistics.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+def disasterprediction(request):
+    result = Disasterprediction.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+def collapserecord(request):
+    result = Collapserecord.objects.values()
+    return render(request,'secondindex.html',{'info':result})
+def civilstructure(request):
+    result = Civilstructure.objects.values()
+    return render(request,'secondindex.html',{'info':result})

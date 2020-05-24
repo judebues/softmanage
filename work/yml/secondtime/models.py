@@ -17,6 +17,7 @@ from django.db import models
 #         managed = False
 #         db_table = 'county'
 
+
 # class Province(models.Model):
 #     code = models.CharField(db_column='Code', primary_key=True, max_length=2)  # Field name made lowercase.
 #     info = models.CharField(max_length=100)
@@ -126,7 +127,7 @@ class Disasterprediction(models.Model):
         db_table = 'DisasterPrediction'
         unique_together = (('id', 'date'),)
 
-# 向请求方输出在清数据信息表
+    # 向请求方输出在清数据信息表
 class Disasterrequest(models.Model):
     id = models.CharField(db_column='ID', primary_key=True, max_length=19)  # Field name made lowercase.
     date = models.DateTimeField()
