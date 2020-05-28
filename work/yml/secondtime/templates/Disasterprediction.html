@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'leftlist.html'%}
+        <div class="span9">
+            <h1 class="page-title">灾情预测</h1>
+
+<div class="well">
+    <table class="table" id="all_info_show">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>location</th>
+            <th>longitude</th>
+            <th>latitude</th>
+            <th>depth</th>
+            <th>magnitude</th>
+            <th>intensity</th>
+            <th>type</th>
+            <th>status</th>
+            <th>note</th>
+            <th>reportingunit</th>
+            {% comment %} <th><th> {% endcomment %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in info %}
+        <tr>    
+            <td>{{ item.id }}</td>
+            <td>{{ item.date|date:'Y-m-d H:i:s' }}</td>
+            <td>{{ item.location }}</td>
+            <td>{{ item.longitude }}</td>
+            <td>{{ item.latitude }}</td>
+            <td>{{ item.depth }}</td>
+            <td>{{ item.magnitude }}</td>
+            <td>{{ item.intensity }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.status }}</td>
+            <td>{{ item.note }}</td>
+            <td>{{ item.reportingunit }}</td>
+            <td><a href={% url "delete" item.id %}  id ="{{ item.id }}">删除</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+<div class="pagination">
+    <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+    </ul>
+</div>
+
+<div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Delete Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p class="error-text"><i class="icon-warning-sign modal-icon"></i>Are you sure you want to delete the user?</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-danger" data-dismiss="modal">Delete</button>
+    </div>
+</div>
+
+        </div>
+    </div>
+    
+
+    
+    <footer>
+        <hr>
+        
+        <p class="pull-right">Collect from <a href="http://www.freemuban.com/" title="网页模板" target="_blank">网页模板</a></p>
+        
+        
+        <p>&copy; 2012 <a href="#">Portnine</a></p>
+    </footer>
+    
+
+    
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/lib/bootstrap/js/bootstrap.js"></script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+  </body>
+</html>
+
+

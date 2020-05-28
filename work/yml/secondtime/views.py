@@ -17,7 +17,7 @@ def home_page(request):
     # print(current_time)
     # print(datetime.datetime(2020,3,4,20, 8, 7, 127325))
     # result = Commdisaster.objects.filter(date__gt=datetime.date(2020,1,2))
-    return render(request,'secondindex.html',{'info':result})
+    return render(request,'index2.html',{'info':result})
 
 def delete(request,nid):
     print(request)
@@ -297,17 +297,33 @@ class DisasterpredictionViewSet(viewsets.ModelViewSet):
 
 def commdisaster(request):
     result = Commdisaster.objects.values()
-    return render(request,'datashow.html',{'info':result})
-
+    return render(request,'CommDisaster.html',{'info':result})
 def deathstatistics(request):
     result = Deathstatistics.objects.values()
-    return render(request,'datashow.html',{'info':result})
+    return render(request,'DeathStatistics.html',{'info':result})
 def disasterprediction(request):
     result = Disasterprediction.objects.values()
-    return render(request,'datashow.html',{'info':result})
+    return render(request,'Disasterprediction.html',{'info':result})
 def collapserecord(request):
     result = Collapserecord.objects.values()
-    return render(request,'datashow.html',{'info':result})
+    return render(request,'Collapserecord.html',{'info':result})
 def civilstructure(request):
     result = Civilstructure.objects.values()
-    return render(request,'datashow.html',{'info':result})
+    return render(request,'Civilstructure.html',{'info':result})
+
+# def commdisaster(request):
+#     result = Commdisaster.objects.values()
+#     return render(request,'datashow.html',{'info':result})
+
+# def deathstatistics(request):
+#     result = Deathstatistics.objects.values()
+#     return render(request,'datashow.html',{'info':result})
+# def disasterprediction(request):
+#     result = Disasterprediction.objects.values()
+#     return render(request,'datashow.html',{'info':result})
+# def collapserecord(request):
+#     result = Collapserecord.objects.values()
+#     return render(request,'datashow.html',{'info':result})
+# def civilstructure(request):
+#     result = Civilstructure.objects.values()
+#     return render(request,'datashow.html',{'info':result})
