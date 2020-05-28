@@ -3,12 +3,6 @@
 <head>
     <title>mshd</title>
     <link rel="stylesheet" href="/static/css/header.css">
-    {% comment %} <link rel="stylesheet" href="/static/css/body.css"> {% endcomment %}
-    <style>
-        body {
-            background-image: url({% static "/image/background1.jpg" %});
-        }
-    </style>
 </head>
 <body>
     {% include 'secondheader.html'%}
@@ -18,8 +12,7 @@
         <input type="text" name="mscode" placeholder="Mscode">
         <input type="submit" value="上传">
     </form>
-    <img src="{% static "/image/background1.jpg" %}" alt="Leo头像" height=100 width=100 />
-    {% comment %} <table id="all_info_show" border="1" >
+    <table id="all_info_show" border="1" >
         <tr>
             <th>ID</th>
             <th>Date</th>
@@ -28,6 +21,7 @@
             <th>grade</th>
             <th>note</th>
             <th>reportingunit</th>
+            {% comment %} <th><th> {% endcomment %}
         </tr>
         {% for item in info %}
         <tr>    
@@ -41,10 +35,6 @@
             <td><a href={% url "delete" item.id %}  id ="{{ item.id }}">删除</a></td>
         </tr>
         {% endfor %}
-    </table> {% endcomment %}
-    {% comment %} <form method="get" action="/download/">
-        {% csrf_token %}
-        <input type="submit" value="下载">
-    </form> {% endcomment %}
+    </table>
 </body>
 </html>
