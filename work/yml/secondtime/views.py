@@ -11,12 +11,12 @@ from django.forms.models import model_to_dict
 
 # Create your views here.
 def home_page(request):
-    # result = Commdisaster.objects.values()
+    result = Commdisaster.objects.values()
     # time < current_time
     # current_time = datetime.date.today()-
     # print(current_time)
-    print(datetime.datetime(2020,3,4,20, 8, 7, 127325))
-    result = Commdisaster.objects.filter(date__gt=datetime.date(2020,1,2))
+    # print(datetime.datetime(2020,3,4,20, 8, 7, 127325))
+    # result = Commdisaster.objects.filter(date__gt=datetime.date(2020,1,2))
     return render(request,'secondindex.html',{'info':result})
 
 def delete(request,nid):
@@ -106,7 +106,7 @@ def search(request):
                 results = accordMscodeToTheClass(search_code).objects.values()
             else:
                 return HttpResponse("error")
-    return render(request,'secondindex.html',{'info':results})
+    return render(request,'datashow.html',{'info':results})
 
 def accordMscodeToTheClass(mscode):
     if mscode == '441':
@@ -294,16 +294,17 @@ class DisasterpredictionViewSet(viewsets.ModelViewSet):
 
 def commdisaster(request):
     result = Commdisaster.objects.values()
-    return render(request,'secondindex.html',{'info':result})
+    return render(request,'datashow.html',{'info':result})
+
 def deathstatistics(request):
     result = Deathstatistics.objects.values()
-    return render(request,'secondindex.html',{'info':result})
+    return render(request,'datashow.html',{'info':result})
 def disasterprediction(request):
     result = Disasterprediction.objects.values()
-    return render(request,'secondindex.html',{'info':result})
+    return render(request,'datashow.html',{'info':result})
 def collapserecord(request):
     result = Collapserecord.objects.values()
-    return render(request,'secondindex.html',{'info':result})
+    return render(request,'datashow.html',{'info':result})
 def civilstructure(request):
     result = Civilstructure.objects.values()
-    return render(request,'secondindex.html',{'info':result})
+    return render(request,'datashow.html',{'info':result})

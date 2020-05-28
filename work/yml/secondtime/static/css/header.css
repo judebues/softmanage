@@ -70,3 +70,8 @@
     float:right;           
     border: 1px solid #3B6273;
 }
+body {
+    background-image: url('../image/background1.jpg');
+    background-repeat:no-repeat;
+    background-size:100%;
+}

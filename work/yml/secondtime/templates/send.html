@@ -6,7 +6,8 @@
 </head>
 <body>
     {% include 'secondheader.html'%}
-    <form method="post" action="/secondtime/sendinfo/" style="margin-top:100px">
+    {% comment %} <form method="post" action="/secondtime/sendinfo/" style="margin-top:100px"> {% endcomment %}
+    <form method="post" action="/download/" style="margin-top:200px">
     {% csrf_token %}
         <div class="first"> 
             <h1>请求灾情数据源</h1>
@@ -79,13 +80,6 @@
                 <input type="submit" value="Submit">
             {% comment %} </form>  {% endcomment %}
         </div>
-    </form>
-    <form action="/secondtime/sendinfo/" method="POST">
-    {% csrf_token %}
-        <input type="checkbox" value="1" name="check_box_list"/>1
-        <input type="checkbox" value="2" name="check_box_list"/>2
-        <input type="checkbox" value="3" name="check_box_list"/>3
-        <input type="submit" value="提交"/>
     </form>
 </body>
 </html>

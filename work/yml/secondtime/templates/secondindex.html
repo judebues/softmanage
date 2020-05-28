@@ -7,6 +7,8 @@
     <style>
         body {
             background-image: url({% static "/image/background1.jpg" %});
+            background-repeat:no-repeat;
+            background-size:100%;
         }
     </style>
 </head>
@@ -18,7 +20,6 @@
         <input type="text" name="mscode" placeholder="Mscode">
         <input type="submit" value="上传">
     </form>
-    <img src="{% static "/image/background1.jpg" %}" alt="Leo头像" height=100 width=100 />
     {% comment %} <table id="all_info_show" border="1" >
         <tr>
             <th>ID</th>
