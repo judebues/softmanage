@@ -93,6 +93,7 @@ def writeToSend(list_value,listname):
 # search info according the request
 # def search_info(request):
 def search(request):
+    results={}
     if request.method == "POST":
         search_code = request.POST.get('search')
         if len(search_code) != 19 and len(search_code)!=3: 
@@ -106,6 +107,8 @@ def search(request):
                 results = accordMscodeToTheClass(search_code).objects.values()
             else:
                 return HttpResponse("error")
+    if len(results)<1:
+        return render(request,'searchresult.html',)
     return render(request,'datashow.html',{'info':results})
 
 def accordMscodeToTheClass(mscode):
