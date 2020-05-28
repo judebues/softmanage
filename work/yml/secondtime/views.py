@@ -4,14 +4,19 @@ from rest_framework import viewsets
 from .serializers import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
-import os,json
+import os,json,datetime,pytz
 from django.core import serializers
 from django.http import HttpResponse,FileResponse
 from django.forms.models import model_to_dict
 
 # Create your views here.
 def home_page(request):
-    result = Commdisaster.objects.values()
+    # result = Commdisaster.objects.values()
+    # time < current_time
+    # current_time = datetime.date.today()-
+    # print(current_time)
+    print(datetime.datetime(2020,3,4,20, 8, 7, 127325))
+    result = Commdisaster.objects.filter(date__gt=datetime.date(2020,1,2))
     return render(request,'secondindex.html',{'info':result})
 
 def delete(request,nid):
@@ -24,9 +29,66 @@ def delete(request,nid):
 def send(request):
     return render(request,'send.html',)
 
-def sendinfo(request):
-    return HttpResponse("hello")
+def update_the_model(request):
+    current_time = datetime.data.today()-datetime.timedelta(days=30)
 
+
+def time_update_ready(time,className):
+    value =  className.objects.filter()
+
+def sendinfo(request):
+    data=[]
+    if request.method == "POST":
+        list_death=request.POST.getlist('death_list')
+        if len(list_death)>1:
+            writeToSend(data,list_death,'death_list')
+        struct_destory=request.POST.getlist('struct_destory')
+        if len(struct_destory)>1:
+            writeToSend(data,struct_destory,'struct_destory')
+
+        LifelineEngineeringDisaster=request.POST.getlist('LifelineEngineeringDisaster')
+        if len(LifelineEngineeringDisaster)>1:
+            writeToSend(data,LifelineEngineeringDisaster,'LifelineEngineeringDisaster')
+        secondarydisaster=request.POST.getlist('secondarydisaster')
+        if len(secondarydisaster)>1:
+            writeToSend(data,secondarydisaster,'secondarydisaster')
+        Shock=request.POST.getlist('Shock')
+        if len(Shock)>1:
+            writeToSend(data,Shock,'Shock')
+        response =FileResponse(json.dumps(data))
+        response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
+        response['Content-Disposition'] = 'attachment;filename="data.json"'
+        return HttpResponse("发送成功")
+
+
+def writeToSend(list_value,listname):
+    data={}
+    if listname == "death_list":
+        if '1' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+        if '2' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+    elif listname=="struct_destory":
+        if '1' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+        if '2' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+    elif listname=="LifelineEngineeringDisaster":
+        if '1' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+        if '2' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+    elif listname=="secondarydisaster":
+        if '1' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+        if '2' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+    elif listname=="Shock":    
+        if '1' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+        if '2' in list_value:
+            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
+    return data
 
 # search info according the request
 # def search_info(request):

@@ -6,77 +6,86 @@
 </head>
 <body>
     {% include 'secondheader.html'%}
-    <div class="first"> 
-        <h1>请求灾情数据源</h1>
-        <table border="1px" width="100%" align="left">
-            <tr>
-                <td>人员伤亡及失踪</td>
-                <td>
-                    <input type="checkbox" name="死亡" value="1" />死亡
-                    <input type="checkbox" name="受伤" value="1" />受伤
-                    <input type="checkbox" name="失踪" value="1" />失踪
-                </td>
-            </tr>
-            <tr>
-                <td>房屋破坏</td>
-                <td>
-                    <input type="checkbox" name="土木" value="1" />土木
-                    <input type="checkbox" name="砖土" value="1" />砖土
-                    <input type="checkbox" name="砖混" value="1" />砖混
-                    <input type="checkbox" name="框架" value="1" />框架
-                    <input type="checkbox" name="其他" value="1" />其他
-                </td>
-            </tr>
-            <tr>
-                <td>生命线工程灾情</td>
-                <td>
-                <input type="checkbox" name="交通" value="1" />交通
-                <input type="checkbox" name="供水" value="1" />供水
-                <input type="checkbox" name="输油" value="1" />输油
-                <input type="checkbox" name="燃气" value="1" />燃气
-                <input type="checkbox" name="电力" value="1" />电力
-                <input type="checkbox" name="通信" value="1" />通信
-                <input type="checkbox" name="水力" value="1" />水力
-                </td>
-            </tr>
-            <tr>
-                <td>次生灾害</td>
-                <td>
-                    <input type="checkbox" name="崩溃" value="1" />崩溃
-                    <input type="checkbox" name="滑坡" value="1" />滑坡
-                    <input type="checkbox" name="泥石流" value="1" />泥石流
-                    <input type="checkbox" name="岩溶塌陷" value="1" />岩溶塌陷
-                    <input type="checkbox" name="地裂缝" value="1" />地裂缝
-                    <input type="checkbox" name="地面沉降" value="1" />地面沉降
-                    <input type="checkbox" name="其他" value="1" />其他
-                </td>
-            </tr>
-            <tr>
-                <td>震情</td>
-                <td>
-                    <input type="checkbox" name="基本" value="1" />基本
-                    <input type="checkbox" name="灾情预测" value="1" />灾情预测
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="second"> 
-        <h1>导出</h1>
-        <form action="">
-            <p>选择导出格式</p>
-            <select>
-                <option value="json">json</option>
-                <option value="html">html</option>
-                <option value="excel">excel</option>
-            </select>
-            <br><br>
-            <p>URL</p>
-            <input type="text" name="URL" value="">
-            <br><br>
-            <input type="submit" value="Submit">
-        </form> 
-    </div>
+    <form method="post" action="/secondtime/sendinfo/" style="margin-top:100px">
+    {% csrf_token %}
+        <div class="first"> 
+            <h1>请求灾情数据源</h1>
+            <table border="1px" width="100%" align="left">
+                <tr>
+                    <td>人员伤亡及失踪</td>
+                    <td>
+                        <input type="checkbox" value="1" name="death_list"/>死亡
+                        <input type="checkbox" value="2" name="death_list"/>受伤
+                        <input type="checkbox" value="3" name="death_list"/>失踪
+                    </td>
+                </tr>
+                <tr>
+                    <td>房屋破坏r
+                    </td>
+                    <td>
+                        <input type="checkbox" value="1" name="struct_destory"/>土木
+                        <input type="checkbox" value="2" name="struct_destory"/>砖土
+                        <input type="checkbox" value="3" name="struct_destory"/>砖混
+                        <input type="checkbox" value="4" name="struct_destory"/>框架
+                        <input type="checkbox" value="5" name="struct_destory"/>其他
+                    </td>
+                </tr>
+                <tr>
+                    <td>生命线工程灾情</td>     
+                    <td>
+                        <input type="checkbox" name="LifelineEngineeringDisaster" value="1"/>交通
+                        <input type="checkbox" name="LifelineEngineeringDisaster" value="2"/>供水
+                        <input type="checkbox" name="LifelineEngineeringDisaster" value="3"/>输油
+                        <input type="checkbox" name="LifelineEngineeringDisaster" value="4"/>燃气
+                        <input type="checkbox" name="LifelineEngineeringDisaster" value="5"/>电力
+                        <input type="checkbox" name="LifelineEngineeringDisaster" value="6"/>通信
+                        <input type="checkbox" name="LifelineEngineeringDisaster" value="7"/>水力
+                    </td>
+                </tr>
+                <tr>
+                    <td>次生灾害</td>
+                    <td>
+                        <input type="checkbox" name="secondarydisaster" value="1" />崩溃
+                        <input type="checkbox" name="secondarydisaster" value="2" />滑坡
+                        <input type="checkbox" name="secondarydisaster" value="3" />泥石流
+                        <input type="checkbox" name="secondarydisaster" value="4" />岩溶塌陷
+                        <input type="checkbox" name="secondarydisaster" value="5" />地裂缝
+                        <input type="checkbox" name="secondarydisaster" value="6" />地面沉降
+                        <input type="checkbox" name="secondarydisaster" value="7" />其他
+                    </td>
+                </tr>
+                <tr>
+                    <td>震情</td>
+                    <td>
+                        <input type="checkbox" name="Shock" value="1" />基本
+                        <input type="checkbox" name="Shock" value="2" />灾情预测
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="second"> 
+            <h1>导出</h1>
+            {% comment %} <form action=""> {% endcomment %}
+                <p>选择导出格式</p>
+                <select>
+                    <option value="json">json</option>
+                    <option value="html">html</option>
+                    <option value="excel">excel</option>
+                </select>
+                <br><br>
+                <p>URL</p>
+                <input type="text" name="URL" value="">
+                <br><br>
+                <input type="submit" value="Submit">
+            {% comment %} </form>  {% endcomment %}
+        </div>
+    </form>
+    <form action="/secondtime/sendinfo/" method="POST">
+    {% csrf_token %}
+        <input type="checkbox" value="1" name="check_box_list"/>1
+        <input type="checkbox" value="2" name="check_box_list"/>2
+        <input type="checkbox" value="3" name="check_box_list"/>3
+        <input type="submit" value="提交"/>
+    </form>
 </body>
 </html>
-
-

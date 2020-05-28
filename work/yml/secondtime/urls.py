@@ -23,4 +23,5 @@ urlpatterns = [
     url(r"^search/$",views.search), 
     url(r'^delete/(\w+)$',views.delete,name='delete'),
     url(r'^send/$',views.send,name="send"),
+    url(r'^sendinfo/$',views.sendinfo,name="sendinfo"),
 ]
