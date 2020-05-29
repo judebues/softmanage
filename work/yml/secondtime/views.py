@@ -40,21 +40,22 @@ def sendinfo(request):
     data=[]
     if request.method == "POST":
         list_death=request.POST.getlist('death_list')
-        if len(list_death)>1:
-            writeToSend(data,list_death,'death_list')
-        struct_destory=request.POST.getlist('struct_destory')
-        if len(struct_destory)>1:
-            writeToSend(data,struct_destory,'struct_destory')
+        print(list_death)
+        # if len(list_death)>1:
+        #     writeToSend(data,list_death,'death_list')
+        # struct_destory=request.POST.getlist('struct_destory')
+        # if len(struct_destory)>1:
+        #     writeToSend(data,struct_destory,'struct_destory')
 
-        LifelineEngineeringDisaster=request.POST.getlist('LifelineEngineeringDisaster')
-        if len(LifelineEngineeringDisaster)>1:
-            writeToSend(data,LifelineEngineeringDisaster,'LifelineEngineeringDisaster')
-        secondarydisaster=request.POST.getlist('secondarydisaster')
-        if len(secondarydisaster)>1:
-            writeToSend(data,secondarydisaster,'secondarydisaster')
-        Shock=request.POST.getlist('Shock')
-        if len(Shock)>1:
-            writeToSend(data,Shock,'Shock')
+        # LifelineEngineeringDisaster=request.POST.getlist('LifelineEngineeringDisaster')
+        # if len(LifelineEngineeringDisaster)>1:
+        #     writeToSend(data,LifelineEngineeringDisaster,'LifelineEngineeringDisaster')
+        # secondarydisaster=request.POST.getlist('secondarydisaster')
+        # if len(secondarydisaster)>1:
+        #     writeToSend(data,secondarydisaster,'secondarydisaster')
+        # Shock=request.POST.getlist('Shock')
+        # if len(Shock)>1:
+        #     writeToSend(data,Shock,'Shock')
         response =FileResponse(json.dumps(data))
         response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
         response['Content-Disposition'] = 'attachment;filename="data.json"'

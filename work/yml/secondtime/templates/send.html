@@ -1,85 +1,96 @@
 {% load static %}
-<html>
-<head>
-    <title>第二次迭代mshd</title>
-    <link rel="stylesheet" href="/static/css/header.css">
-</head>
-<body>
-    {% include 'secondheader.html'%}
-    {% comment %} <form method="post" action="/secondtime/sendinfo/" style="margin-top:100px"> {% endcomment %}
-    <form method="post" action="/download/" style="margin-top:200px">
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'leftlist.html'%}
+<div class="span9">
+    <form method="POST" action="/secondtime/sendinfo/">
     {% csrf_token %}
-        <div class="first"> 
-            <h1>请求灾情数据源</h1>
-            <table border="1px" width="100%" align="left">
-                <tr>
-                    <td>人员伤亡及失踪</td>
-                    <td>
-                        <input type="checkbox" value="1" name="death_list"/>死亡
-                        <input type="checkbox" value="2" name="death_list"/>受伤
-                        <input type="checkbox" value="3" name="death_list"/>失踪
-                    </td>
-                </tr>
-                <tr>
-                    <td>房屋破坏r
-                    </td>
-                    <td>
-                        <input type="checkbox" value="1" name="struct_destory"/>土木
-                        <input type="checkbox" value="2" name="struct_destory"/>砖土
-                        <input type="checkbox" value="3" name="struct_destory"/>砖混
-                        <input type="checkbox" value="4" name="struct_destory"/>框架
-                        <input type="checkbox" value="5" name="struct_destory"/>其他
-                    </td>
-                </tr>
-                <tr>
-                    <td>生命线工程灾情</td>     
-                    <td>
-                        <input type="checkbox" name="LifelineEngineeringDisaster" value="1"/>交通
-                        <input type="checkbox" name="LifelineEngineeringDisaster" value="2"/>供水
-                        <input type="checkbox" name="LifelineEngineeringDisaster" value="3"/>输油
-                        <input type="checkbox" name="LifelineEngineeringDisaster" value="4"/>燃气
-                        <input type="checkbox" name="LifelineEngineeringDisaster" value="5"/>电力
-                        <input type="checkbox" name="LifelineEngineeringDisaster" value="6"/>通信
-                        <input type="checkbox" name="LifelineEngineeringDisaster" value="7"/>水力
-                    </td>
-                </tr>
-                <tr>
-                    <td>次生灾害</td>
-                    <td>
-                        <input type="checkbox" name="secondarydisaster" value="1" />崩溃
-                        <input type="checkbox" name="secondarydisaster" value="2" />滑坡
-                        <input type="checkbox" name="secondarydisaster" value="3" />泥石流
-                        <input type="checkbox" name="secondarydisaster" value="4" />岩溶塌陷
-                        <input type="checkbox" name="secondarydisaster" value="5" />地裂缝
-                        <input type="checkbox" name="secondarydisaster" value="6" />地面沉降
-                        <input type="checkbox" name="secondarydisaster" value="7" />其他
-                    </td>
-                </tr>
-                <tr>
-                    <td>震情</td>
-                    <td>
-                        <input type="checkbox" name="Shock" value="1" />基本
-                        <input type="checkbox" name="Shock" value="2" />灾情预测
-                    </td>
-                </tr>
-            </table>
+    <h1 class="page-title">数据发送</h1>
+    <div class="block" >
+        <p class="block-heading">选择数据源</p>
+        <div class="block-body">
+            <div class="row-fluid">
+                <table  border="1px"  width="100%" align="left">
+                    <tr>
+                        <td>人员伤亡及失踪</td>
+                        <td>
+                            <input type="checkbox" name="death_list" value="1" />死亡
+                            <input type="checkbox" name="death_list" value="2" />受伤
+                            <input type="checkbox" name="death_list" value="3" />失踪
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>房屋破坏</td>
+                        <td>
+                            <input type="checkbox" name="struct_destory" value="1" />土木
+                            <input type="checkbox" name="struct_destory" value="2" />砖土
+                            <input type="checkbox" name="struct_destory" value="3" />砖混
+                            <input type="checkbox" name="struct_destory" value="4" />框架
+                            <input type="checkbox" name="struct_destory" value="5" />其他
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>生命线工程灾情</td>
+                        <td>
+                            <input type="checkbox" name="LifelineEngineeringDisaster" value="1" />交通
+                            <input type="checkbox" name="LifelineEngineeringDisaster" value="2" />供水
+                            <input type="checkbox" name="LifelineEngineeringDisaster" value="3" />输油
+                            <input type="checkbox" name="LifelineEngineeringDisaster" value="4" />燃气
+                            <input type="checkbox" name="LifelineEngineeringDisaster" value="5" />电力
+                            <input type="checkbox" name="LifelineEngineeringDisaster" value="6" />通信
+                            <input type="checkbox" name="LifelineEngineeringDisaster" value="7" />水力
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>次生灾害</td>
+                        <td>
+                            <input type="checkbox" name="secondarydisaster" value="1" />崩溃
+                            <input type="checkbox" name="secondarydisaster" value="2" />滑坡
+                            <input type="checkbox" name="secondarydisaster" value="3" />泥石流
+                            <input type="checkbox" name="secondarydisaster" value="4" />岩溶塌陷
+                            <input type="checkbox" name="secondarydisaster" value="5" />地裂缝
+                            <input type="checkbox" name="secondarydisaster" value="6" />地面沉降
+                            <input type="checkbox" name="secondarydisaster" value="7" />其他
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>震情</td>
+                        <td>
+                            <input type="checkbox" name="Shock" value="1" />基本
+                            <input type="checkbox" name="Shock" value="2" />灾情预测
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <div class="second"> 
-            <h1>导出</h1>
-            {% comment %} <form action=""> {% endcomment %}
-                <p>选择导出格式</p>
-                <select>
-                    <option value="json">json</option>
-                    <option value="html">html</option>
-                    <option value="excel">excel</option>
-                </select>
-                <br><br>
-                <p>URL</p>
-                <input type="text" name="URL" value="">
-                <br><br>
-                <input type="submit" value="Submit">
-            {% comment %} </form>  {% endcomment %}
+    </div>
+
+    <p class="block-heading">填写发送信息</p>
+    <div class="well search-well">
+        <p>导出格式:
+        <select>
+            <option value="json">json</option>
+            <option value="html">html</option>
+            <option value="excel">excel</option>
+        </select></p>
+        <p>URL：<input type="text" name="URL" value=""></p>
+        <input type="submit" value="Submit">
+    </div>
+    <div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Delete Confirmation</h3>
         </div>
+        <div class="modal-body">
+            <p class="error-text"><i class="icon-warning-sign modal-icon"></i>Are you sure you want to delete the user?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <button class="btn btn-danger" data-dismiss="modal">Delete</button>
+        </div>
+    </div>
     </form>
+</div> 
+    <script src="/static/lib/bootstrap/js/bootstrap.js"></script>
 </body>
 </html>
