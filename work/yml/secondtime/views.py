@@ -12,19 +12,27 @@ from django.forms.models import model_to_dict
 # Create your views here.
 def home_page(request):
     result = Commdisaster.objects.values()
+    # writeToDB()
     # time < current_time
     # current_time = datetime.date.today()-
     # print(current_time)
     # print(datetime.datetime(2020,3,4,20, 8, 7, 127325))
     # result = Commdisaster.objects.filter(date__gt=datetime.date(2020,1,2))
     return render(request,'index2.html',{'info':result})
+    
 
-def delete(request,nid):
-    print(request)
-    print(nid)
+def delete_Comm(request,nid):
     Commdisaster.objects.filter(id=nid).delete()
-    result = Commdisaster.objects.values()
-    return render(request,'secondindex.html',{'info':result})
+    result=Commdisaster.objects.values()
+    return render(request,'CommDisaster.html',{'info':result})
+def delete_death(request,nid):
+    Deathstatistics.objects.filter(id=nid).delete()
+    result=Deathstatistics.objects.values()
+    return render(request,'DeathStatistics.html',{'info':result})
+def delete_civil(request,nid):
+    Civilstructure.objects.filter(id=nid).delete()
+    result=Civilstructure.objects.values()
+    return render(request,'CivilStructure.html',{'info':result})
 
 def send(request):
     return render(request,'send.html',)
@@ -178,10 +186,7 @@ def writeToDatabases(filepath,ClassName):
         for i in range(len(allattr)):
             temp.allattr[i]=item.get(allattr[i])
         temp.save()
-        # ClassName.objects.create(id=item.get('Code'),date=item.get('Date'),
-        # location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
-        # note=item.get('Note'),reportingunit=item.get('ReportingUnit'))    
-
+        
 def theWrongWayToStoreDb(filepath,mscode):
     json_data=open(filepath,encoding='utf-8').read()
     data=json.loads(json_data,strict=False)
@@ -211,6 +216,65 @@ def theWrongWayToStoreDb(filepath,mscode):
         location=item.get('Location'),longitude=item.get('Longitude'),latitude=item.get('Latitude'),
         depth=item.get('Depth'),magnitude=item.get('Magnitude'),itensity=item.get('Itensity'),
         type=item.get('Type'),status=item.get('Status'),note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+
+
+
+
+def commdisaster(request):
+    result = Commdisaster.objects.values()
+    return render(request,'CommDisaster.html',{'info':result})
+def deathstatistics(request):
+    result = Deathstatistics.objects.values()
+    return render(request,'DeathStatistics.html',{'info':result})
+def disasterprediction(request):
+    result = Disasterprediction.objects.values()
+    return render(request,'Disasterprediction.html',{'info':result})
+def collapserecord(request):
+    result = Collapserecord.objects.values()
+    return render(request,'Collapserecord.html',{'info':result})
+def civilstructure(request):
+    result = Civilstructure.objects.values()
+    return render(request,'CivilStructure.html',{'info':result})
+
+
+
+def writeToDB():
+    absdir = os.path.dirname(os.path.abspath(__file__))
+    filepath=absdir+"/static/filestore/data.json"
+    MsCode = "202"
+    file_name = open(filepath, 'r', encoding='utf-8')
+    for line in file_name.readlines():
+        dic = json.loads(line,strict=False)
+        #取值
+        dic['ReportingUnit'] = MsCode + '-' + dic['ReportingUnit']
+        code = dic['Code']
+        disasterType = code[12:15]
+        #print(disasterType)
+        #print(type(disasterType))
+        #根据类型编码判断要放入哪个表中
+        print(dic)
+        print("************")
+        if (disasterType == '336'):
+            # if Commdisaster.objects.filter(id=dic.get('Code'))==None:
+            Commdisaster.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),type=dic.get('Type'),grade=dic.get('Grade'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
+        elif(disasterType == '111'):
+            # if Deathstatistics.objects.filter(id=dic.get('Code'))==None:
+            Deathstatistics.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),
+            number=dic.get('Number'),reportingunit=dic.get('ReportingUnit'))
+        elif(disasterType == '221'):
+            # if Civilstructure.objects.filter(id=dic.get('Code'))==None:
+            Civilstructure.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),
+            basicallyintactsquare=dic.get('BasicallyIntactSquare'),damagedsquare=dic.get('DamagedSquare'),
+            distoryedsquare=dic.get('DestoryedSquare'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
+    file_name.close()
+
+
+
+
+
+
+
+
 
 class CommdisasterViewSet(viewsets.ModelViewSet):
     queryset = Commdisaster.objects.all()
@@ -294,37 +358,4 @@ class DisasterpredictionViewSet(viewsets.ModelViewSet):
         result = Disasterprediction.objects.filter(id=pk)
         serializer = DisasterpredictionSerializers(instance=result,many=True)
         return Response(serializer.data)
-
-
-def commdisaster(request):
-    result = Commdisaster.objects.values()
-    return render(request,'CommDisaster.html',{'info':result})
-def deathstatistics(request):
-    result = Deathstatistics.objects.values()
-    return render(request,'DeathStatistics.html',{'info':result})
-def disasterprediction(request):
-    result = Disasterprediction.objects.values()
-    return render(request,'Disasterprediction.html',{'info':result})
-def collapserecord(request):
-    result = Collapserecord.objects.values()
-    return render(request,'Collapserecord.html',{'info':result})
-def civilstructure(request):
-    result = Civilstructure.objects.values()
-    return render(request,'Civilstructure.html',{'info':result})
-
-# def commdisaster(request):
-#     result = Commdisaster.objects.values()
-#     return render(request,'datashow.html',{'info':result})
-
-# def deathstatistics(request):
-#     result = Deathstatistics.objects.values()
-#     return render(request,'datashow.html',{'info':result})
-# def disasterprediction(request):
-#     result = Disasterprediction.objects.values()
-#     return render(request,'datashow.html',{'info':result})
-# def collapserecord(request):
-#     result = Collapserecord.objects.values()
-#     return render(request,'datashow.html',{'info':result})
-# def civilstructure(request):
-#     result = Civilstructure.objects.values()
-#     return render(request,'datashow.html',{'info':result})
+        

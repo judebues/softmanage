@@ -31,7 +31,7 @@
             <td>{{ item.distoryedsquare }}</td>
             <td>{{ item.note }}</td>
             <td>{{ item.reportingunit }}</td>
-            <td><a href={% url "delete" item.id %}  id ="{{ item.id }}">删除</a></td>
+            <td><a href={% url "delete_civil" item.id %}  id ="{{ item.id }}">删除</a></td>
         </tr>
         {% endfor %}
       </tbody>

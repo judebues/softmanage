@@ -21,7 +21,9 @@ urlpatterns = [
     url(r"^Collapserecord/$",views.collapserecord), 
     url(r"^Civilstructure/$",views.civilstructure), 
     url(r"^search/$",views.search), 
-    url(r'^delete/(\w+)$',views.delete,name='delete'),
+    url(r'^delete_Comm/(\w+)/$',views.delete_Comm,name='delete_Comm'),
+    url(r'^delete_death/(\w+)/$',views.delete_death,name='delete_death'),
+    url(r'^delete_civil/(\w+)/$',views.delete_civil,name='delete_civil'),
     url(r'^send/$',views.send,name="send"),
     url(r'^sendinfo/$',views.sendinfo,name="sendinfo"),
 ]

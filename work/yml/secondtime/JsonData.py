@@ -4,6 +4,7 @@ import json
 from CommDisaster import CommDisaster
 from DeathStatistics import DeathStatistics
 from CivilStructure import CivilStructure
+from models import Commdisaster,Collapserecord,Civilstructure,Deathstatistics
 class JsonData:
     #初始化数据项
     def __init__(self):
@@ -11,17 +12,24 @@ class JsonData:
         self.filepath = ""
         self.MsCode = ""
         self.file = None
+
     #打开、json文件
     def openJsonFile(self):
         self.filepath = input("请输入json文件路径：\n")
         self.MsCode = input('请输入json数据源类型：\n')
         self.file = open(self.filepath, 'r', encoding='utf-8')
 
+
     #处理commDisaster表的函数
     def commDisasterHandler(self,dic):
         # 赋值
         commdis = CommDisaster()
         dic['ReportingUnit'] = self.MsCode + '-' + dic['ReportingUnit']
+        
+        Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
+        location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
+        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+        
         commdis.setCommDisaster(dic['Code'], dic['Date'], dic['Type'], dic['Grade'], dic['Picture'], dic['Note'],dic['ReportingUnit'], dic['Status'])
         #从ID字段解析location
         commdis.getLocationFromCode()
@@ -42,26 +50,28 @@ class JsonData:
     #处理deathstatistics 表的函数
     def deathStatisticsHandler(self,dic):
         #赋值
-        deathsSta = DeathStatistics()
+        # deathsSta = DeathStatistics()
         dic['ReportingUnit'] = self.MsCode + '-' + dic['ReportingUnit']
-        deathsSta.setDeathStatistics(dic['Code'], dic['Date'], dic['Number'], dic['ReportingUnit'])
+        # Deathstatistics.objects.create(id=item.get('Code'),date=item.get('Date'),
+        # location=item.get('Location'),number=item.get('Number'),reportingunit=item.get('ReportingUnit'))
+        DeathStatistics.objects.create(dic['Code'], dic['Date'],,dic['Location'] dic['Number'], dic['ReportingUnit'])
+        # deathsSta.setDeathStatistics(dic['Code'], dic['Date'], dic['Number'], dic['ReportingUnit'])
         # 从ID字段解析location
-        deathsSta.getLocationFromCode()
+        # deathsSta.getLocationFromCode()
         # 将读取到的数据插入到数据库中，注意多次插入会存在重复的问题，第二次执行需手动清空commdisaster表中的数据
-        deathsSta.insertIntoDeathStatistics()
+        # deathsSta.insertIntoDeathStatistics()
 
         #测试增删查改的数据
         # deathsSta.deleteDeathStatistics('3311111111111110005')
         # deathsSta.insertDeathStatistics('3311111111111110005', '2020-02-01 00:00:00', '1', 'I','I')
-        # deathsSta.selectDeathStatistics('3311111111111110005')
+        # deathsSta.selectDeathStatistics('331111111111111  0005')
         # deathsSta.updateDeathStatistics('3311111111111110005', 'ReportingUnit', '2')
 
         # 将json文件导出到本地
-        deathsSta.saveAsJson()
+        # deathsSta.saveAsJson()
         # 中断其与mysql连接
-        deathsSta.cutMysqlConnection()
-
-        return deathsSta
+        # deathsSta.cutMysqlConnection()
+        # return deathsSta
 
     #处理civilStructure表的函数
     def civilStructureHandler(self,dic):
@@ -69,7 +79,7 @@ class JsonData:
         civilstr = CivilStructure()
         dic['ReportingUnit'] = self.MsCode + '-' + dic['ReportingUnit']
         civilstr.setCivilStructure(dic['Code'], dic['Date'], dic['BasicallyIntactSquare'], dic['DamagedSquare'], dic['DestoryedSquare'], dic['Note'],dic['ReportingUnit'])
-
+        CivilStructure.objects.create
         #从ID字段解析location
         civilstr.getLocationFromCode()
         # 将读取到的数据插入到数据库中，注意多次插入会存在重复的问题，第二次执行需手动清空commdisaster表中的数据
@@ -110,11 +120,33 @@ class JsonData:
     def disconn(self):
         self.file.close()
 
+def writeToDB():
+    filepath="static/filestore/data.json"
+    MsCode = "202"
+    file_name = open(self.filepath, 'r', encoding='utf-8')
+    for line in file_name.readlines():
+        dic = json.loads(line)
+        #取值
+        dic['ReportingUnit'] = self.MsCode + '-' + dic['ReportingUnit']
+        code = dic['Code']
+        disasterType = code[12:15]
+        #print(disasterType)
+        #print(type(disasterType))
+        #根据类型编码判断要放入哪个表中
+        if (disasterType == '336'):
+            Commdisaster.objects.create(dic)
+        elif(disasterType == '111'):
+            DeathStatistics.objects.create(dic)
+        elif(disasterType == '221'):
+            CivilStructure.objects.create(dic)
+    file_name.close()
 
 
 if __name__=='__main__':
     jsondata = JsonData()
     jsondata.openJsonFile()
+    
+
     # 设置以utf-8解码模式读取文件，encoding参数必须设置，否则默认以gbk模式读取文件，当文件中包含中文时，会报错
 
     # 读取每一行，读出 然后写入数据库
