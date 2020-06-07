@@ -1,22 +1,2 @@
-[{
-    "Code":"3311111111013360002", 
-    "Date":"2020-02-11 13:13:00", 
-    "Location":"测试通信336",
-    "Type":"I",
-    
-    "Grade": "I",
-    "Picture":null, 
-    "Note":null,
-    "ReportingUnit":"5",
-    "Status":"I"},
-{
-    "Code":"1111111118113360002", 
-    "Date":"2020-02-21 22:30:00", 
-    "Location":"测试测试通信336", 
-    "Type":"I", 
-    "Grade": "I", 
-    "Picture":null, 
-    "Note":null, 
-    "ReportingUnit":"3",
-    "Status":"I"}
-]
+{"Code":"3311111111013360002", "Date":"2020-02-11 13:13:00", "Location":"测试通信336","Type":"I","Grade": "I","Picture":null,"Note":null,"ReportingUnit":"5","Status":"I"}
+{"Code":"1111111118113360002", "Date":"2020-02-21 22:30:00", "Location":"测试测试通信336", "Type":"I", "Grade": "I","Picture":null,"Note":null,"ReportingUnit":"3","Status":"I"}

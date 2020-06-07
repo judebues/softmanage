@@ -238,35 +238,35 @@ def civilstructure(request):
 
 
 
-def writeToDB():
-    absdir = os.path.dirname(os.path.abspath(__file__))
-    filepath=absdir+"/static/filestore/data.json"
-    MsCode = "202"
-    file_name = open(filepath, 'r', encoding='utf-8')
-    for line in file_name.readlines():
-        dic = json.loads(line,strict=False)
-        #取值
-        dic['ReportingUnit'] = MsCode + '-' + dic['ReportingUnit']
-        code = dic['Code']
-        disasterType = code[12:15]
-        #print(disasterType)
-        #print(type(disasterType))
-        #根据类型编码判断要放入哪个表中
-        print(dic)
-        print("************")
-        if (disasterType == '336'):
-            # if Commdisaster.objects.filter(id=dic.get('Code'))==None:
-            Commdisaster.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),type=dic.get('Type'),grade=dic.get('Grade'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
-        elif(disasterType == '111'):
-            # if Deathstatistics.objects.filter(id=dic.get('Code'))==None:
-            Deathstatistics.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),
-            number=dic.get('Number'),reportingunit=dic.get('ReportingUnit'))
-        elif(disasterType == '221'):
-            # if Civilstructure.objects.filter(id=dic.get('Code'))==None:
-            Civilstructure.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),
-            basicallyintactsquare=dic.get('BasicallyIntactSquare'),damagedsquare=dic.get('DamagedSquare'),
-            distoryedsquare=dic.get('DestoryedSquare'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
-    file_name.close()
+# def writeToDB():
+#     absdir = os.path.dirname(os.path.abspath(__file__))
+#     filepath=absdir+"/static/filestore/data.json"
+#     MsCode = "202"
+#     file_name = open(filepath, 'r', encoding='utf-8')
+#     for line in file_name.readlines():
+#         dic = json.loads(line,strict=False)
+#         #取值
+#         dic['ReportingUnit'] = MsCode + '-' + dic['ReportingUnit']
+#         code = dic['Code']
+#         disasterType = code[12:15]
+#         #print(disasterType)
+#         #print(type(disasterType))
+#         #根据类型编码判断要放入哪个表中
+#         print(dic)
+#         print("************")
+#         if (disasterType == '336'):
+#             # if Commdisaster.objects.filter(id=dic.get('Code'))==None:
+#             Commdisaster.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),type=dic.get('Type'),grade=dic.get('Grade'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
+#         elif(disasterType == '111'):
+#             # if Deathstatistics.objects.filter(id=dic.get('Code'))==None:
+#             Deathstatistics.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),
+#             number=dic.get('Number'),reportingunit=dic.get('ReportingUnit'))
+#         elif(disasterType == '221'):
+#             # if Civilstructure.objects.filter(id=dic.get('Code'))==None:
+#             Civilstructure.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),
+#             basicallyintactsquare=dic.get('BasicallyIntactSquare'),damagedsquare=dic.get('DamagedSquare'),
+#             distoryedsquare=dic.get('DestoryedSquare'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
+#     file_name.close()
 
 
 

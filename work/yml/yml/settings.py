@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django_crontab',
     'django.contrib.staticfiles',
     'rest_framework',
     'secondtime',
@@ -138,3 +139,8 @@ BASE_PATH=os.path.join(BASE_PATH,'../')
 STATICFILES_DIRS = (
     os.path.join(BASE_PATH, 'static/'),
 )
+
+CRONJOBS = [
+    # 分 时 日 月 周      命令
+    ('*/20 * * * *', 'secondtime.timework.timeWorkWriteFileToDb','>> ~/data.txt')
+]
