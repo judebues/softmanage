@@ -29,7 +29,7 @@
             <td>{{ item.status }}</td>
             <td>{{ item.note }}</td>
             <td>{{ item.reportingunit }}</td>
-            <td><a href={% url "delete" item_id = item.id d_type="336" %}>删除</a></td>
+            <td><a href={% url "delete_Comm" item.id %}  id ="{{ item.id }}">删除</a></td>
         </tr>
         {% endfor %}
       </tbody>

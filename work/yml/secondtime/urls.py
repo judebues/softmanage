@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^delete_Comm/(\w+)/$',views.delete_Comm,name='delete_Comm'),
     url(r'^delete_death/(\w+)/$',views.delete_death,name='delete_death'),
     url(r'^delete_civil/(\w+)/$',views.delete_civil,name='delete_civil'),
+    url(r'^delete_colla/(\w+)/$',views.delete_colla,name='delete_colla'),
+    
     url(r'^send/$',views.send,name="send"),
     url(r'^sendinfo/$',views.sendinfo,name="sendinfo"),
 ]

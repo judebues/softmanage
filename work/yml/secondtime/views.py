@@ -12,12 +12,7 @@ from django.forms.models import model_to_dict
 # Create your views here.
 def home_page(request):
     result = Commdisaster.objects.values()
-    # writeToDB()
-    # time < current_time
-    # current_time = datetime.date.today()-
-    # print(current_time)
-    # print(datetime.datetime(2020,3,4,20, 8, 7, 127325))
-    # result = Commdisaster.objects.filter(date__gt=datetime.date(2020,1,2))
+    test()
     return render(request,'index2.html',{'info':result})
     
 
@@ -33,6 +28,10 @@ def delete_civil(request,nid):
     Civilstructure.objects.filter(id=nid).delete()
     result=Civilstructure.objects.values()
     return render(request,'CivilStructure.html',{'info':result})
+def delete_colla(request,nid):
+    Collapserecord.objects.filter(id=nid).delete()
+    result=Collapserecord.objects.values()
+    return render(request,'Collapserecord.html',{'info':result})
 
 def send(request):
     return render(request,'send.html',)
@@ -47,58 +46,33 @@ def time_update_ready(time,className):
 def sendinfo(request):
     data=[]
     if request.method == "POST":
-        list_death=request.POST.getlist('death_list')
+        if len(request.POST.get('URL')) < 1:
+            return HttpResponse("发送失败,URL为空")    
+        list_death=request.POST.getlist('info_list')
         print(list_death)
-        # if len(list_death)>1:
-        #     writeToSend(data,list_death,'death_list')
-        # struct_destory=request.POST.getlist('struct_destory')
-        # if len(struct_destory)>1:
-        #     writeToSend(data,struct_destory,'struct_destory')
-
-        # LifelineEngineeringDisaster=request.POST.getlist('LifelineEngineeringDisaster')
-        # if len(LifelineEngineeringDisaster)>1:
-        #     writeToSend(data,LifelineEngineeringDisaster,'LifelineEngineeringDisaster')
-        # secondarydisaster=request.POST.getlist('secondarydisaster')
-        # if len(secondarydisaster)>1:
-        #     writeToSend(data,secondarydisaster,'secondarydisaster')
-        # Shock=request.POST.getlist('Shock')
-        # if len(Shock)>1:
-        #     writeToSend(data,Shock,'Shock')
-        response =FileResponse(json.dumps(data))
-        response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
-        response['Content-Disposition'] = 'attachment;filename="data.json"'
+        # response =FileResponse(json.dumps(data))
+        # response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
+        # response['Content-Disposition'] = 'attachment;filename="data.json"'
         return HttpResponse("发送成功")
 
+def test():
+    list_object=[Deathstatistics,None,None,Civilstructure,None,None,None,None,None,None,None,None,None,Commdisaster,None,None,None,None,None,None,None,None,None,Disasterprediction]
+    list_value=[0,3,13,23]
+    for i in list_value:
+        data = list_object[int(i)].objects.filter()
+        data = serializers.serialize("json", data,ensure_ascii=False)
+        print(data)
+        print(type(data))
 
 def writeToSend(list_value,listname):
     data={}
-    if listname == "death_list":
-        if '1' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-        if '2' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-    elif listname=="struct_destory":
-        if '1' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-        if '2' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-    elif listname=="LifelineEngineeringDisaster":
-        if '1' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-        if '2' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-    elif listname=="secondarydisaster":
-        if '1' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-        if '2' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-    elif listname=="Shock":    
-        if '1' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-        if '2' in list_value:
-            data=dict(data,**model_to_dict(Commdisaster.objects.filter()))
-    return data
+    list_object=[Deathstatistics,None,None,Civilstructure,None,None,None,None,None,None,None,None,None,Commdisaster,None,None,None,None,None,None,None,None,None,Disasterprediction]
+    for i in list_value:
+        data = list_object[int(i)].objects.filter()
+        data = serializers.serialize("json", data,ensure_ascii=False)
+    
 
+    
 # search info according the request
 # def search_info(request):
 def search(request):
@@ -169,56 +143,6 @@ def upload_file(request):
         result = Commdisaster.objects.values()
         return  render(request, "secondindex.html",{'info':result})
 
-def writeToDb(filepath):
-    json_data=open(filepath,encoding='utf-8').read()
-    data=json.loads(json_data,strict=False)
-    for item in data:
-        Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
-        location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
-        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-
-def writeToDatabases(filepath,ClassName):
-    json_data=open(filepath,encoding='utf-8').read()
-    data=json.loads(json_data,strict=False)
-    for item in data:
-        temp = ClassName()
-        allattr=temp.__dict__.keys()
-        for i in range(len(allattr)):
-            temp.allattr[i]=item.get(allattr[i])
-        temp.save()
-        
-def theWrongWayToStoreDb(filepath,mscode):
-    json_data=open(filepath,encoding='utf-8').read()
-    data=json.loads(json_data,strict=False)
-    if mscode == '441':
-        for item in data:
-            Collapserecord.objects.create(id=item.get('Code'),date=item.get('Date'),
-        location=item.get('Location'),type=item.get('Type'),status=item.get('Status'),
-        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-    elif mscode == '336':
-        for item in data:
-            Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
-        location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
-        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-    elif mscode == '221':
-        for item in data:
-            Civilstructure.objects.create(id=item.get('Code'),date=item.get('Date'),
-        location=item.get('Location'),basicallyintactsquare=item.get('Basicallyintactsquare'),
-        damagedsquare=item.get('Damagedsquare'),distoryedsquare=item.get('Distoryedsquare'),
-        note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-    elif mscode == '111':
-        for item in data:
-            Deathstatistics.objects.create(id=item.get('Code'),date=item.get('Date'),
-        location=item.get('Location'),number=item.get('Number'),reportingunit=item.get('ReportingUnit'))
-    elif mscode == '552':
-        for item in data:
-            Disasterprediction.objects.create(id=item.get('Code'),date=item.get('Date'),
-        location=item.get('Location'),longitude=item.get('Longitude'),latitude=item.get('Latitude'),
-        depth=item.get('Depth'),magnitude=item.get('Magnitude'),itensity=item.get('Itensity'),
-        type=item.get('Type'),status=item.get('Status'),note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-
-
-
 
 def commdisaster(request):
     result = Commdisaster.objects.values()
@@ -239,34 +163,6 @@ def civilstructure(request):
 
 
 # def writeToDB():
-#     absdir = os.path.dirname(os.path.abspath(__file__))
-#     filepath=absdir+"/static/filestore/data.json"
-#     MsCode = "202"
-#     file_name = open(filepath, 'r', encoding='utf-8')
-#     for line in file_name.readlines():
-#         dic = json.loads(line,strict=False)
-#         #取值
-#         dic['ReportingUnit'] = MsCode + '-' + dic['ReportingUnit']
-#         code = dic['Code']
-#         disasterType = code[12:15]
-#         #print(disasterType)
-#         #print(type(disasterType))
-#         #根据类型编码判断要放入哪个表中
-#         print(dic)
-#         print("************")
-#         if (disasterType == '336'):
-#             # if Commdisaster.objects.filter(id=dic.get('Code'))==None:
-#             Commdisaster.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),type=dic.get('Type'),grade=dic.get('Grade'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
-#         elif(disasterType == '111'):
-#             # if Deathstatistics.objects.filter(id=dic.get('Code'))==None:
-#             Deathstatistics.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),
-#             number=dic.get('Number'),reportingunit=dic.get('ReportingUnit'))
-#         elif(disasterType == '221'):
-#             # if Civilstructure.objects.filter(id=dic.get('Code'))==None:
-#             Civilstructure.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),
-#             basicallyintactsquare=dic.get('BasicallyIntactSquare'),damagedsquare=dic.get('DamagedSquare'),
-#             distoryedsquare=dic.get('DestoryedSquare'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
-#     file_name.close()
 
 
 
@@ -359,3 +255,53 @@ class DisasterpredictionViewSet(viewsets.ModelViewSet):
         serializer = DisasterpredictionSerializers(instance=result,many=True)
         return Response(serializer.data)
         
+
+
+
+#         def writeToDb(filepath):
+#     json_data=open(filepath,encoding='utf-8').read()
+#     data=json.loads(json_data,strict=False)
+#     for item in data:
+#         Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
+#         location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
+#         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+
+# def writeToDatabases(filepath,ClassName):
+#     json_data=open(filepath,encoding='utf-8').read()
+#     data=json.loads(json_data,strict=False)
+#     for item in data:
+#         temp = ClassName()
+#         allattr=temp.__dict__.keys()
+#         for i in range(len(allattr)):
+#             temp.allattr[i]=item.get(allattr[i])
+#         temp.save()
+        
+# def theWrongWayToStoreDb(filepath,mscode):
+#     json_data=open(filepath,encoding='utf-8').read()
+#     data=json.loads(json_data,strict=False)
+#     if mscode == '441':
+#         for item in data:
+#             Collapserecord.objects.create(id=item.get('Code'),date=item.get('Date'),
+#         location=item.get('Location'),type=item.get('Type'),status=item.get('Status'),
+#         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+#     elif mscode == '336':
+#         for item in data:
+#             Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
+#         location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
+#         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+#     elif mscode == '221':
+#         for item in data:
+#             Civilstructure.objects.create(id=item.get('Code'),date=item.get('Date'),
+#         location=item.get('Location'),basicallyintactsquare=item.get('Basicallyintactsquare'),
+#         damagedsquare=item.get('Damagedsquare'),distoryedsquare=item.get('Distoryedsquare'),
+#         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+#     elif mscode == '111':
+#         for item in data:
+#             Deathstatistics.objects.create(id=item.get('Code'),date=item.get('Date'),
+#         location=item.get('Location'),number=item.get('Number'),reportingunit=item.get('ReportingUnit'))
+#     elif mscode == '552':
+#         for item in data:
+#             Disasterprediction.objects.create(id=item.get('Code'),date=item.get('Date'),
+#         location=item.get('Location'),longitude=item.get('Longitude'),latitude=item.get('Latitude'),
+#         depth=item.get('Depth'),magnitude=item.get('Magnitude'),itensity=item.get('Itensity'),
+#         type=item.get('Type'),status=item.get('Status'),note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
