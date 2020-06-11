@@ -29,7 +29,7 @@ def writeToDB(filename):
                 Deathstatistics.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),number=dic.get('Number'),reportingunit=dic.get('ReportingUnit'))
             elif(disasterType == '221'):
                 Civilstructure.objects.filter(id=dic.get('Code')).delete()
-                Civilstructure.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),basicallyintactsquare=dic.get('BasicallyIntactSquare'),damagedsquare=dic.get('DamagedSquare'),distoryedsquare=dic.get('DestoryedSquare'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
+                Civilstructure.objects.create(id=dic.get('Code'),date=dic.get('Date'),location=dic.get('Location'),basicallyintactsquare=dic.get('BasicallyIntactSquare'),damagedsquare=dic.get('DamagedSquare'),destoryedsquare=dic.get('DestoryedSquare'),note=dic.get('Note'),reportingunit=dic.get('ReportingUnit'))
         file_name.close()
     except Exception as e:
         print(e)
