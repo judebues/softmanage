@@ -83,7 +83,7 @@ class Civilstructure(models.Model):
     location = models.CharField(max_length=100)
     basicallyintactsquare = models.CharField(db_column='basicallyIntactSquare', max_length=6)  # Field name made lowercase.
     damagedsquare = models.CharField(db_column='damagedSquare', max_length=6)  # Field name made lowercase.
-    distoryedsquare = models.CharField(db_column='distoryedSquare', max_length=6)  # Field name made lowercase.
+    destoryedsquare = models.CharField(db_column='destoryedSquare', max_length=6)  # Field name made lowercase.
     note = models.CharField(max_length=200, blank=True, null=True)
     reportingunit = models.CharField(db_column='reportingUnit', max_length=50)  # Field name made lowercase.
 
