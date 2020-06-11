@@ -39,7 +39,7 @@ def updatesendrecode(request,id):
     path = '/home/data/'+disastertype+":"+date+".json"
     with open(path,'w+') as f:
         f.write(date)
-    return render(request,'Disasterrequest.html',{'info':result})
+    return render(request,'DisasterRequest.html',{'info':result})
 
 
 def sendinfo(request):
@@ -51,6 +51,8 @@ def sendinfo(request):
         # print(request.POST)
         # print(list_death)
         data=writeToSend(list_death)
+        if len(valueType(list_death).objects.all()) < 1:
+            return HttpResponse("发送数据为空，停止发送")
         d1 = valueType(list_death).objects.all()[0]
         disastertype = d1.id[12:15]
         # date=time.strftime('%H:%M:%S',time.localtime(time.time()))
@@ -65,6 +67,9 @@ def sendinfo(request):
 
 def valueType(valuedd):
     list_object=[Deathstatistics,None,None,Civilstructure,None,None,None,None,None,None,None,None,None,Commdisaster,None,None,None,None,None,None,None,None,None,Disasterprediction]
+    print(valuedd[0])
+    print("***************")
+    print(str(list_object[0]))
     return list_object[int(valuedd[0])-1]
 
 def writeToSend(value):
@@ -184,7 +189,7 @@ def delete_colla(request,nid):
 def delete_request(request,nid):
     Disasterrequest.objects.filter(id=nid).delete()
     result=Disasterrequest.objects.values()
-    return render(request,'Disasterrequest.html',{'info':result})
+    return render(request,'DisasterRequest.html',{'info':result})
 
 
 
