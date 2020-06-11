@@ -31,6 +31,12 @@ def sendrecode(id,disastertype,o_url,reportingunit):
 def updatesendrecode(request,id):
     Disasterrequest.objects.filter(id=id).update(status='1')
     result=Disasterrequest.objects.values()
+    d1 = Disasterrequest.objects.filter(id=id)[0]
+    disastertype = d1.id[12:15]
+    date=time.strftime('%H:%M:%S',time.localtime(time.time()))
+    path = '/home/data/'+disastertype+":"+date+".json"
+    with open(path,'w+') as f:
+        f.write(date)
     return render(request,'Disasterrequest.html',{'info':result})
 
 
@@ -45,11 +51,15 @@ def sendinfo(request):
         data=writeToSend(list_death)
         d1 = valueType(list_death).objects.all()[0]
         disastertype = d1.id[12:15]
+        date=time.strftime('%H:%M:%S',time.localtime(time.time()))
         sendrecode(d1.id,disastertype,request.POST.get('URL'),d1.reportingunit)
+        path = '/home/data/'+disastertype+":"+date+".json"
+        with open(path,'w+') as f:
+            f.write(date)
         # response =FileResponse(json.dumps(data))
         # response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
         # response['Content-Disposition'] = 'attachment;filename="data.json"'
-        return HttpResponse(data)
+        return HttpResponse("success")
 
 def valueType(valuedd):
     list_object=[Deathstatistics,None,None,Civilstructure,None,None,None,None,None,None,None,None,None,Commdisaster,None,None,None,None,None,None,None,None,None,Disasterprediction]
@@ -145,10 +155,13 @@ def upload(request):
     return render(request,'UploadFile.html',)
 def send(request):
     return render(request,'send.html',)
-
 def sendlist(request):
     result = Disasterrequest.objects.values()
     return render(request,'Disasterrequest.html',{'info':result})
+def sign_in(request):
+    return render(request,'sign-in.html',{})
+def sign_up(request):
+    return render(request,'sign-up.html',{})
 
 def delete_Comm(request,nid):
     Commdisaster.objects.filter(id=nid).delete()

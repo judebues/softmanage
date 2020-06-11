@@ -29,6 +29,8 @@ urlpatterns = [
     url(r'^delete_request/(\w+)/$',views.delete_request,name='delete_request'),
     url(r'^update_sendrecode/(\w+)/$',views.updatesendrecode,name='update_sendrecode'),
     url(r"^sendlist/$",views.sendlist), 
+    url(r"^sign_in/$",views.sign_in), 
+    url(r"^sign_up/$",views.sign_up), 
     
     # url(r'^sendlist/$',views.sendlist),
     url(r'^send/$',views.send,name="send"),
