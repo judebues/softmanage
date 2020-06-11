@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'leftlist.html'%}
+<div class="span9">
+<h1 class="page-title">上传文件</h1>
+<form method="post" action="/secondtime/uploadfile/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="myfile"> 
+        {% comment %} <input type="text" name="mscode" placeholder="Mscode"> {% endcomment %}
+        <input type="submit" value="上传" style="border-radius:10px">
+</form>
+</div>    
+</body>
+</html>
+
+

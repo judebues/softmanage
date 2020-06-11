@@ -4,7 +4,7 @@ from os import listdir
 from .models import *
 def getAllFileFromDir():
     absdir = os.path.dirname(os.path.abspath(__file__))
-    filepath=absdir+"/static/filestore/"
+    filepath=absdir+"/static/filestore/"    
     filename=listdir(filepath)
     return filename
 

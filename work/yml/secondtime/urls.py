@@ -12,7 +12,8 @@ from secondtime import views
 # router.register(r'disasterprediction',views.DisasterpredictionViewSet, basename='disasterprediction')
 
 urlpatterns = [ 
-    url(r'^upload/$', views.upload_file),
+    url(r'^uploadfile/$', views.uploadfile),
+    url(r'^upload/$',views.upload),
     url(r"^download/$",views.download_file,name='down'),
     url(r"^index/$",views.home_page,name="home"),
     url(r"^Commdisaster/$",views.commdisaster), 
@@ -20,12 +21,16 @@ urlpatterns = [
     url(r"^Disasterprediction/$",views.disasterprediction), 
     url(r"^Collapserecord/$",views.collapserecord), 
     url(r"^Civilstructure/$",views.civilstructure), 
-    url(r"^search/$",views.search), 
+    # url(r"^search/$",views.search), 
     url(r'^delete_Comm/(\w+)/$',views.delete_Comm,name='delete_Comm'),
     url(r'^delete_death/(\w+)/$',views.delete_death,name='delete_death'),
     url(r'^delete_civil/(\w+)/$',views.delete_civil,name='delete_civil'),
     url(r'^delete_colla/(\w+)/$',views.delete_colla,name='delete_colla'),
+    url(r'^delete_request/(\w+)/$',views.delete_request,name='delete_request'),
+    url(r'^update_sendrecode/(\w+)/$',views.updatesendrecode,name='update_sendrecode'),
+    url(r"^sendlist/$",views.sendlist), 
     
+    # url(r'^sendlist/$',views.sendlist),
     url(r'^send/$',views.send,name="send"),
     url(r'^sendinfo/$',views.sendinfo,name="sendinfo"),
 ]

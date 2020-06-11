@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from .serializers import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
-import os,json,datetime,pytz
+import os,json,datetime,pytz,time
 from django.core import serializers
 from django.http import HttpResponse,FileResponse
 from django.forms.models import model_to_dict
@@ -12,36 +12,27 @@ from django.forms.models import model_to_dict
 # Create your views here.
 def home_page(request):
     result = Commdisaster.objects.values()
-    test()
     return render(request,'index2.html',{'info':result})
     
 
-def delete_Comm(request,nid):
-    Commdisaster.objects.filter(id=nid).delete()
-    result=Commdisaster.objects.values()
-    return render(request,'CommDisaster.html',{'info':result})
-def delete_death(request,nid):
-    Deathstatistics.objects.filter(id=nid).delete()
-    result=Deathstatistics.objects.values()
-    return render(request,'DeathStatistics.html',{'info':result})
-def delete_civil(request,nid):
-    Civilstructure.objects.filter(id=nid).delete()
-    result=Civilstructure.objects.values()
-    return render(request,'CivilStructure.html',{'info':result})
-def delete_colla(request,nid):
-    Collapserecord.objects.filter(id=nid).delete()
-    result=Collapserecord.objects.values()
-    return render(request,'Collapserecord.html',{'info':result})
 
-def send(request):
-    return render(request,'send.html',)
-
-def update_the_model(request):
-    current_time = datetime.data.today()-datetime.timedelta(days=30)
+# def update_the_model(request):
+#     current_time = datetime.data.today()-datetime.timedelta(days=30)
 
 
-def time_update_ready(time,className):
-    value =  className.objects.filter()
+# def time_update_ready(time,className):
+#     value =  className.objects.filter()
+
+
+def sendrecode(id,disastertype,o_url,reportingunit):
+    date=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+    Disasterrequest.objects.create(id=id,date=date,disastertype=disastertype,status='0',o_url=o_url,reportingunit=reportingunit)
+
+def updatesendrecode(request,id):
+    Disasterrequest.objects.filter(id=id).update(status='1')
+    result=Disasterrequest.objects.values()
+    return render(request,'Disasterrequest.html',{'info':result})
+
 
 def sendinfo(request):
     data=[]
@@ -49,50 +40,54 @@ def sendinfo(request):
         if len(request.POST.get('URL')) < 1:
             return HttpResponse("发送失败,URL为空")    
         list_death=request.POST.getlist('info_list')
-        print(list_death)
+        # print(request.POST)
+        # print(list_death)
+        data=writeToSend(list_death)
+        d1 = valueType(list_death).objects.all()[0]
+        disastertype = d1.id[12:15]
+        sendrecode(d1.id,disastertype,request.POST.get('URL'),d1.reportingunit)
         # response =FileResponse(json.dumps(data))
         # response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
         # response['Content-Disposition'] = 'attachment;filename="data.json"'
-        return HttpResponse("发送成功")
+        return HttpResponse(data)
 
-def test():
+def valueType(valuedd):
     list_object=[Deathstatistics,None,None,Civilstructure,None,None,None,None,None,None,None,None,None,Commdisaster,None,None,None,None,None,None,None,None,None,Disasterprediction]
-    list_value=[0,3,13,23]
-    for i in list_value:
-        data = list_object[int(i)].objects.filter()
-        data = serializers.serialize("json", data,ensure_ascii=False)
-        print(data)
-        print(type(data))
+    return list_object[int(valuedd[0])-1]
 
-def writeToSend(list_value,listname):
-    data={}
-    list_object=[Deathstatistics,None,None,Civilstructure,None,None,None,None,None,None,None,None,None,Commdisaster,None,None,None,None,None,None,None,None,None,Disasterprediction]
-    for i in list_value:
-        data = list_object[int(i)].objects.filter()
-        data = serializers.serialize("json", data,ensure_ascii=False)
-    
+def writeToSend(value):
+    if valueType(value)==None:
+        return "null"
+    data = valueType(value).objects.filter()
+    data = serializers.serialize("json", data,ensure_ascii=False)
+    return data
 
-    
-# search info according the request
-# def search_info(request):
-def search(request):
-    results={}
-    if request.method == "POST":
-        search_code = request.POST.get('search')
-        if len(search_code) != 19 and len(search_code)!=3: 
-            return HttpResponse("数据格式输入错误，请重新输入")
-        elif len(search_code) < 1:
-            results = Commdisaster.objects.values()
-        elif len(search_code) == 19:
-            results = Commdisaster.objects.filter(id=search_code)
-        elif len(search_code) == 3:
-            if accordMscodeToTheClass(search_code)!=None:
-                results = accordMscodeToTheClass(search_code).objects.values()
-            else:
-                return HttpResponse("error")
-    if len(results)<1:
-        return render(request,'searchresult.html',)
-    return render(request,'datashow.html',{'info':results})
+def download_file(request):
+    data=Commdisaster.objects.filter()
+    data = serializers.serialize("json", data,ensure_ascii=False)
+    print(type(data))
+    response =FileResponse(data)
+    response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
+    response['Content-Disposition'] = 'attachment;filename="data.json"'
+    return response
+# def search(request):
+#     results={}
+#     if request.method == "POST":
+#         search_code = request.POST.get('search')
+#         if len(search_code) != 19 and len(search_code)!=3: 
+#             return HttpResponse("数据格式输入错误，请重新输入")
+#         elif len(search_code) < 1:
+#             results = Commdisaster.objects.values()
+#         elif len(search_code) == 19:
+#             results = Commdisaster.objects.filter(id=search_code)
+#         elif len(search_code) == 3:
+#             if accordMscodeToTheClass(search_code)!=None:
+#                 results = accordMscodeToTheClass(search_code).objects.values()
+#             else:
+#                 return HttpResponse("error")
+#     if len(results)<1:
+#         return render(request,'searchresult.html',)
+#     return render(request,'datashow.html',{'info':results})
 
 def accordMscodeToTheClass(mscode):
     if mscode == '441':
@@ -108,21 +103,9 @@ def accordMscodeToTheClass(mscode):
     else:
         return None
 
-def download_file(request):
-    data=Commdisaster.objects.filter()
-    data = serializers.serialize("json", data,ensure_ascii=False)
-    print(type(data))
-    response =FileResponse(data)
-    response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
-    response['Content-Disposition'] = 'attachment;filename="data.json"'
-    return response
 
-def upload_file(request):
-    mscode = request.POST.get('mscode')
-    
-    if len(mscode) < 1:
-        return HttpResponse('mscode is error')
-    # 请求方法为POST时，进行处理
+
+def uploadfile(request):
     if request.method == "POST":
         # 获取上传的文件，如果没有文件，则默认为None
         File = request.FILES.get("myfile", None)
@@ -134,14 +117,13 @@ def upload_file(request):
                 with open(absdir+"/static/filestore/%s" % File.name, 'wb+') as f:
                     for chunk in  File.chunks():
                         f.write(chunk)
-                theWrongWayToStoreDb(absdir+"/static/filestore/%s" % File.name,mscode)
                 return HttpResponse("UPload over!")
             except FileNotFoundError as e:
                 print(e)
                 return HttpResponse("no error")
-    else:
-        result = Commdisaster.objects.values()
-        return  render(request, "secondindex.html",{'info':result})
+    # else:
+        # result = Commdisaster.objects.values()
+        # return  render(request, "secondindex.html",{'info':result})
 
 
 def commdisaster(request):
@@ -159,10 +141,35 @@ def collapserecord(request):
 def civilstructure(request):
     result = Civilstructure.objects.values()
     return render(request,'CivilStructure.html',{'info':result})
+def upload(request):
+    return render(request,'UploadFile.html',)
+def send(request):
+    return render(request,'send.html',)
 
+def sendlist(request):
+    result = Disasterrequest.objects.values()
+    return render(request,'Disasterrequest.html',{'info':result})
 
-
-# def writeToDB():
+def delete_Comm(request,nid):
+    Commdisaster.objects.filter(id=nid).delete()
+    result=Commdisaster.objects.values()
+    return render(request,'CommDisaster.html',{'info':result})
+def delete_death(request,nid):
+    Deathstatistics.objects.filter(id=nid).delete()
+    result=Deathstatistics.objects.values()
+    return render(request,'DeathStatistics.html',{'info':result})
+def delete_civil(request,nid):
+    Civilstructure.objects.filter(id=nid).delete()
+    result=Civilstructure.objects.values()
+    return render(request,'CivilStructure.html',{'info':result})
+def delete_colla(request,nid):
+    Collapserecord.objects.filter(id=nid).delete()
+    result=Collapserecord.objects.values()
+    return render(request,'Collapserecord.html',{'info':result})
+def delete_request(request,nid):
+    Disasterrequest.objects.filter(id=nid).delete()
+    result=Disasterrequest.objects.values()
+    return render(request,'Disasterrequest.html',{'info':result})
 
 
 
