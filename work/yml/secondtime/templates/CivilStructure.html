@@ -14,7 +14,7 @@
             <th>location</th>
             <th>basicallyintactsquare</th>
             <th>damagedsquare</th>
-            <th>distoryedsquare</th>
+            <th>destoryedsquare</th>
             <th>note</th>
             <th>reportingunit</th>
             {% comment %} <th><th> {% endcomment %}
@@ -28,7 +28,7 @@
             <td>{{ item.location }}</td>
             <td>{{ item.basicallyintactsquare }}</td>
             <td>{{ item.damagedsquare }}</td>
-            <td>{{ item.distoryedsquare }}</td>
+            <td>{{ item.destoryedsquare }}</td>
             <td>{{ item.note }}</td>
             <td>{{ item.reportingunit }}</td>
             <td><a href={% url "delete_civil" item.id %}  id ="{{ item.id }}">删除</a></td>
@@ -64,9 +64,7 @@
 
         </div>
     </div>
-    
 
-    
     <footer>
         <hr>
         
@@ -75,25 +73,12 @@
         
         <p>&copy; 2012 <a href="#">Portnine</a></p>
     </footer>
-    
 
-    
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/static/lib/bootstrap/js/bootstrap.js"></script>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 
   </body>

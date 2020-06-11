@@ -1,47 +1,47 @@
 from django.db import models
 
 # Create your models here.
-# class Community(models.Model):
-#     code = models.CharField(db_column='Code', primary_key=True, max_length=3)  # Field name made lowercase.
-#     info = models.CharField(max_length=100)
+class Community(models.Model):
+    code = models.CharField(db_column='Code', primary_key=True, max_length=3)  # Field name made lowercase.
+    info = models.CharField(max_length=100)
 
-#     class Meta:
-#         managed = False
-#         db_table = 'community'
+    class Meta:
+        managed = False
+        db_table = 'community'
 
-# class County(models.Model):
-#     code = models.CharField(db_column='Code', primary_key=True, max_length=2)  # Field name made lowercase.
-#     info = models.CharField(max_length=100)
+class County(models.Model):
+    code = models.CharField(db_column='Code', primary_key=True, max_length=2)  # Field name made lowercase.
+    info = models.CharField(max_length=100)
 
-#     class Meta:
-#         managed = False
-#         db_table = 'county'
-
-
-# class Province(models.Model):
-#     code = models.CharField(db_column='Code', primary_key=True, max_length=2)  # Field name made lowercase.
-#     info = models.CharField(max_length=100)
-
-#     class Meta:
-#         managed = False
-#         db_table = 'province'
-
-# class City(models.Model):
-#     code = models.CharField(db_column='Code', primary_key=True, max_length=2)  # Field name made lowercase.
-#     info = models.CharField(max_length=100)
-
-#     class Meta:
-#         managed = False
-#         db_table = 'city'
+    class Meta:
+        managed = False
+        db_table = 'county'
 
 
-# class Street(models.Model):
-#     code = models.CharField(db_column='Code', primary_key=True, max_length=3)  # Field name made lowercase.
-#     info = models.CharField(max_length=100)
+class Province(models.Model):
+    code = models.CharField(db_column='Code', primary_key=True, max_length=2)  # Field name made lowercase.
+    info = models.CharField(max_length=100)
 
-#     class Meta:
-#         managed = False
-#         db_table = 'street'
+    class Meta:
+        managed = False
+        db_table = 'province'
+
+class City(models.Model):
+    code = models.CharField(db_column='Code', primary_key=True, max_length=2)  # Field name made lowercase.
+    info = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'city'
+
+
+class Street(models.Model):
+    code = models.CharField(db_column='Code', primary_key=True, max_length=3)  # Field name made lowercase.
+    info = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'street'
 
 # 次生灾害
 # 441
@@ -140,3 +140,18 @@ class Disasterrequest(models.Model):
         managed = False
         db_table = 'DisasterRequest'
         unique_together = (('id', 'date'),)
+
+class User(models.Model):
+    username = models.CharField(max_length=128,unique=True)
+    password = models.CharField(max_length=256)
+    email = models.EmailField(unique=True)
+
+    c_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        ordering = ['c_time']
+        verbose_name = '用户'
+        verbose_name_plural = '用户'

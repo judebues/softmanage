@@ -32,6 +32,12 @@ urlpatterns = [
     url(r"^sign_in/$",views.sign_in), 
     url(r"^sign_up/$",views.sign_up), 
     
+
+    url(r'^login/', views.login),
+    url(r'^register/', views.register),
+    url(r'^logout/', views.logout),
+    url(r'^captcha/', include('captcha.urls')),
+
     # url(r'^sendlist/$',views.sendlist),
     url(r'^send/$',views.send,name="send"),
     url(r'^sendinfo/$',views.sendinfo,name="sendinfo"),

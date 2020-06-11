@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import *
 from rest_framework import viewsets
 from .serializers import *
@@ -8,6 +8,8 @@ import os,json,datetime,pytz,time
 from django.core import serializers
 from django.http import HttpResponse,FileResponse
 from django.forms.models import model_to_dict
+from .forms import *
+import hashlib
 
 # Create your views here.
 def home_page(request):
@@ -51,15 +53,15 @@ def sendinfo(request):
         data=writeToSend(list_death)
         d1 = valueType(list_death).objects.all()[0]
         disastertype = d1.id[12:15]
-        date=time.strftime('%H:%M:%S',time.localtime(time.time()))
+        # date=time.strftime('%H:%M:%S',time.localtime(time.time()))
         sendrecode(d1.id,disastertype,request.POST.get('URL'),d1.reportingunit)
-        path = '/home/data/'+disastertype+":"+date+".json"
-        with open(path,'w+') as f:
-            f.write(date)
+        # path = '/home/data/'+disastertype+":"+date+".json"
+        # with open(path,'w+') as f:
+        #     f.write(date)
         # response =FileResponse(json.dumps(data))
         # response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
         # response['Content-Disposition'] = 'attachment;filename="data.json"'
-        return HttpResponse("success")
+        return download_file()
 
 def valueType(valuedd):
     list_object=[Deathstatistics,None,None,Civilstructure,None,None,None,None,None,None,None,None,None,Commdisaster,None,None,None,None,None,None,None,None,None,Disasterprediction]
@@ -72,14 +74,14 @@ def writeToSend(value):
     data = serializers.serialize("json", data,ensure_ascii=False)
     return data
 
-def download_file(request):
+def download_file():
     data=Commdisaster.objects.filter()
     data = serializers.serialize("json", data,ensure_ascii=False)
     print(type(data))
     response =FileResponse(data)
     response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
     response['Content-Disposition'] = 'attachment;filename="data.json"'
-    return response
+    return FileResponse(response)
 # def search(request):
 #     results={}
 #     if request.method == "POST":
@@ -157,7 +159,7 @@ def send(request):
     return render(request,'send.html',)
 def sendlist(request):
     result = Disasterrequest.objects.values()
-    return render(request,'Disasterrequest.html',{'info':result})
+    return render(request,'DisasterRequest.html',{'info':result})
 def sign_in(request):
     return render(request,'sign-in.html',{})
 def sign_up(request):
@@ -325,3 +327,78 @@ class DisasterpredictionViewSet(viewsets.ModelViewSet):
 #         location=item.get('Location'),longitude=item.get('Longitude'),latitude=item.get('Latitude'),
 #         depth=item.get('Depth'),magnitude=item.get('Magnitude'),itensity=item.get('Itensity'),
 #         type=item.get('Type'),status=item.get('Status'),note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
+
+
+
+def login(request):
+    if request.session.get('is_login', None):
+        return redirect("/secondtime/index/")
+    if request.method == "POST":
+        login_form = UserForm(request.POST)
+        message = "请检查填写的内容！"
+        if login_form.is_valid():
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
+            try:
+                user = User.objects.get(username=username)
+                if user.password == password:  # 哈希值和数据库内的值进行比对
+                    request.session['is_login'] = True
+                    request.session['user_id'] = user.id
+                    request.session['user_name'] = user.username
+                    return redirect('/secondtime/login/')
+                else:
+                    message = "密码不正确！"
+            except:
+                message = "用户不存在！"
+        return render(request, 'login/login.html', locals())
+
+    login_form = UserForm()
+    return render(request, 'login/login.html', locals())
+
+
+def register(request):
+    if request.session.get('is_login', None):
+        # 登录状态不允许注册。你可以修改这条原则！
+        return redirect("/secondtime/index/")
+    if request.method == "POST":
+        register_form = RegisterForm(request.POST)
+        message = "请检查填写的内容！"
+        if register_form.is_valid():  # 获取数据
+            username = register_form.cleaned_data['username']
+            password1 = register_form.cleaned_data['password1']
+            password2 = register_form.cleaned_data['password2']
+            email = register_form.cleaned_data['email']
+            if password1 != password2:  # 判断两次密码是否相同
+                message = "两次输入的密码不同！"
+                return render(request, 'login/register.html', locals())
+            else:
+                same_name_user = User.objects.filter(username=username)
+                if same_name_user:  # 用户名唯一
+                    message = '用户已经存在，请重新选择用户名！'
+                    return render(request, 'login/register.html', locals())
+                same_email_user = User.objects.filter(email=email)
+                if same_email_user:  # 邮箱地址唯一
+                    message = '该邮箱地址已被注册，请使用别的邮箱！'
+                    return render(request, 'login/register.html', locals())
+
+                # 当一切都OK的情况下，创建新用户
+                User.objects.create(username=username, password=password1, email=email)
+                # return HttpResponse("%s,%s,%s,%s,%s"%(username,password1,email))
+                return redirect('/secondtime/login/')  # 自动跳转到登录页面
+    register_form = RegisterForm()
+    return render(request, 'login/register.html', locals())
+
+
+def logout(request):
+    if not request.session.get('is_login', None):
+        return redirect('/secondtime/login/')
+    request.session.flush()
+
+    return redirect('/secondtime/login/')
+
+
+def hash_code(s, salt='mysite_login'):
+    h = hashlib.sha256()
+    s += salt
+    h.update(s.encode())  # update方法只接收bytes类型
+    return h.hexdigest()

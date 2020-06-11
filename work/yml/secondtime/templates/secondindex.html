@@ -1,0 +1,51 @@
+{% load static %}
+<html>
+<head>
+    <title>mshd</title>
+    <link rel="stylesheet" href="/static/css/header.css">
+    {% comment %} <link rel="stylesheet" href="/static/css/body.css"> {% endcomment %}
+    <style>
+        body {
+            background-image: url({% static "/image/background1.jpg" %});
+            background-repeat:no-repeat;
+            background-size:100%;
+        }
+    </style>
+</head>
+<body>
+    {% include 'secondheader.html'%}
+    <form method="post" action="/secondtime/upload/" enctype="multipart/form-data" style="margin-top:100px">
+        {% csrf_token %}
+        <input type="file" name="myfile">
+        <input type="text" name="mscode" placeholder="Mscode">
+        <input type="submit" value="上传">
+    </form>
+    {% comment %} <table id="all_info_show" border="1" >
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>location</th>
+            <th>type</th>
+            <th>grade</th>
+            <th>note</th>
+            <th>reportingunit</th>
+        </tr>
+        {% for item in info %}
+        <tr>    
+            <td>{{ item.id }}</td>
+            <td>{{ item.date|date:'Y-m-d H:i:s' }}</td>
+            <td>{{ item.location }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.grade }}</td>
+            <td>{{ item.note }}</td>
+            <td>{{ item.reportingunit }}</td>
+            <td><a href={% url "delete" item.id %}  id ="{{ item.id }}">删除</a></td>
+        </tr>
+        {% endfor %}
+    </table> {% endcomment %}
+    {% comment %} <form method="get" action="/download/">
+        {% csrf_token %}
+        <input type="submit" value="下载">
+    </form> {% endcomment %}
+</body>
+</html>

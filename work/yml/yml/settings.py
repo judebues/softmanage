@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'secondtime',
     'Wordprocessing',
     'fileupload',
+    'captcha',
 ]
 
 MIDDLEWARE = [

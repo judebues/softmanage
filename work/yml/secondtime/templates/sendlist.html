@@ -17,24 +17,14 @@
         </tr>
       </thead>
       <tbody>
-        {% for item in info %}
         <tr>    
-            <td>{{ item.id }}</td>
-            <td>{{ item.date|date:'Y-m-d H:i:s' }}</td>
-            <td>{{ item.disastertype }}</td>
-            {% if item.status == '0'%}
-                <td>待审批</td>
-            {% else %}
-                <td>审批成功</td>
-            {% endif %}
-            <td>{{ item.o_url }}</td>
-            <td>{{ item.reportingunit }}</td>
-            <td><a href={% url "delete_request" item.id %}  id ="{{ item.id }}">删除</a></td>
-            <td><a href={% url "update_sendrecode" item.id %}  id ="{{ item.id }}">通过</a></td>
-        
+            <td>1111111111111110001</td>
+            <td>2020-02-01 00:00:00</td>
+            <td>336</td>
+            <td>0</td>
+            <td>etc/local/Death</td>
+            <td>北京邮电大学软件学院</td>
         </tr>
-        {% endfor %}
-        
       </tbody>
     </table>
 </div>
@@ -64,8 +54,6 @@
 </div>
 
         </div>
-    </div>
-    
 
     
     <footer>

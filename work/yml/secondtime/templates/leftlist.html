@@ -14,7 +14,7 @@
     <script src="/static/lib/jquery-1.8.1.min.js" type="text/javascript"></script>
 
     <!-- Demo page code -->
-    
+
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -50,37 +50,36 @@
   <!--[if IE 7 ]> <body class="ie ie7"> <![endif]-->
   <!--[if IE 8 ]> <body class="ie ie8"> <![endif]-->
   <!--[if IE 9 ]> <body class="ie ie9"> <![endif]-->
-  <!--[if (gt IE 9)|!(IE)]><!--> 
-  <body> 
+  <!--[if (gt IE 9)|!(IE)]><!-->
+  <body>
   <!--<![endif]-->
-    
+
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container-fluid">
                 <ul class="nav pull-right">
-                    
+
                     <li id="fat-menu" class="dropdown">
                         <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-user"></i> Jack Smith
+                            <i class="icon-user"></i>管理员
                             <i class="icon-caret-down"></i>
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="#">Settings</a></li>
                             <li class="divider"></li>
-                            <li><a tabindex="-1" href="sign-in.html">Logout</a></li>
+                            <li><a tabindex="-1" href="/secondtime/logout">Logout</a></li>
                         </ul>
                     </li>
-                    
+
                 </ul>
                 <a class="brand" href="/secondtime/index"><span class="second">MSHD</span></a>
             </div>
         </div>
     </div>
-    
+
 
     <div class="container-fluid">
-        
+
         <div class="row-fluid">
             <div class="span3">
                 <div class="sidebar-nav">
@@ -88,8 +87,9 @@
                     <ul id="dashboard-menu" class="nav nav-list collapse in">
                         <li><a href="/secondtime/index">首页</a></li>
                         <li ><a href="/secondtime/upload">上传</a></li>
-                        <li ><a href="/secondtime/send">发送</a></li>
                         <li ><a href="/secondtime/sendlist">发送列表</a></li>
+                        <li ><a href="/secondtime/send">发送</a></li>
+
                     </ul>
 
                 <div class="nav-header" data-toggle="collapse" data-target="#settings-menu"><i class="icon-exclamation-sign"></i>人员伤亡及失踪</div>
@@ -116,7 +116,7 @@
                     <li><a href="#">燃气</a></li>
                     <li><a href="#">电力</a></li>
                     <li><a href="/secondtime/Commdisaster/">通信</a></li>
-                    <li><a href="#">水利</a></li>          
+                    <li><a href="#">水利</a></li>
                 </ul>
 
                 <div class="nav-header" data-toggle="collapse" data-target="#disaster3-menu"><i class="icon-exclamation-sign"></i>次生灾害</div>
@@ -138,6 +138,6 @@
 
 
 
-            
+
             </div>
         </div>
