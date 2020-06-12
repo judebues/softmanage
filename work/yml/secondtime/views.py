@@ -17,7 +17,6 @@ def home_page(request):
     result = Commdisaster.objects.values()
     dblist = ['Commdisaster','Deathstatistics','Collapserecord','Civilstructure','Disasterrequest']
     # print("*******************")
-    writeToDB('data.json')
     # print("*******************")
     return render(request,'index2.html',{'options':dblist})
     
@@ -72,9 +71,9 @@ def sendinfo(request):
 
 def valueType(valuedd):
     list_object=[Deathstatistics,None,None,Civilstructure,None,None,None,None,None,None,None,None,None,Commdisaster,None,None,None,None,None,None,None,None,None,Disasterprediction]
-    print(valuedd[0])
-    print("***************")
-    print(str(list_object[0]))
+    # print(valuedd[0])
+    # print("***************")
+    # print(str(list_object[0]))
     return list_object[int(valuedd[0])-1]
 
 def writeToSend(value):
@@ -87,7 +86,7 @@ def writeToSend(value):
 def download_file():
     data=Commdisaster.objects.filter()
     data = serializers.serialize("json", data,ensure_ascii=False)
-    print(type(data))
+    # print(type(data))
     response =FileResponse(data)
     response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
     response['Content-Disposition'] = 'attachment;filename="data.json"'
@@ -212,7 +211,6 @@ def update(request,nid):
     # print(result.__dict__.keys())
     # print(result[0])
     di = model_to_dict(result)
-    print(di)
     return render(request,'update_death.html',{'info':di})
 
 def updateInfo(request):
