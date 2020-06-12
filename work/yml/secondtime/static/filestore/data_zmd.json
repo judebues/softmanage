@@ -1,0 +1,9 @@
+{"Code":"3311111111113360001", "Date":"2020-02-01 00:00:00", "Location":null, "Type":"I", "Grade": "I", "Picture":"12345", "Note":null, "ReportingUnit":"5"}
+{"Code":"1122111111113360002", "Date":"2020-02-01 00:00:00", "Location":null, "Type":"I", "Grade": "I", "Picture":"12345", "Note":null, "ReportingUnit":"3"}
+{"Code":"1133111111113360003", "Date":"2020-02-01 00:00:00", "Location":null, "Type":"I", "Grade": "I", "Picture":"12345", "Note":null, "ReportingUnit":"3"}
+{"Code":"1111111111111110001", "Date":"2020-02-01 00:00:00", "Location":null, "Number":"100", "ReportingUnit":"3"}
+{"Code":"1122111111111110002", "Date":"2020-02-01 00:00:00", "Location":null, "Number":"100", "ReportingUnit":"3"}
+{"Code":"1133111111111110003", "Date":"2020-02-01 00:00:00", "Location":null, "Number":"100", "ReportingUnit":"3"}
+{"Code":"1122111111112210001", "Date":"2020-02-01 00:00:00", "Location":null, "BasicallyIntactSquare":"100", "DamagedSquare":"100", "DestoryedSquare":100, "Note":null, "ReportingUnit":"5"}
+{"Code":"1133111111112210002", "Date":"2020-02-01 00:00:00", "Location":null, "BasicallyIntactSquare":"100", "DamagedSquare":"100", "DestoryedSquare":100, "Note":null, "ReportingUnit":"5"}
+{"Code":"3311111111112210003", "Date":"2020-02-01 00:00:00", "Location":null, "BasicallyIntactSquare":"100", "DamagedSquare":"100", "DestoryedSquare":100, "Note":null, "ReportingUnit":"5"}

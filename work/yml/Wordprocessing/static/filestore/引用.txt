@@ -1,0 +1,1 @@
+Li R, Shen C, He H, et al. A lightweight secure data sharing scheme for mobile cloud computing[J]. IEEE Transactions on Cloud Computing, 2017, 6(2): 344-357.
