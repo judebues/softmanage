@@ -31,7 +31,6 @@
             <td>{{ item.reportingunit }}</td>
             <td><a href={% url "delete_request" item.id %}  id ="{{ item.id }}">删除</a></td>
             <td><a href={% url "update_sendrecode" item.id %}  id ="{{ item.id }}">通过</a></td>
-
         </tr>
         {% endfor %}
 

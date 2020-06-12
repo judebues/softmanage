@@ -21,7 +21,7 @@ urlpatterns = [
     url(r"^Disasterprediction/$",views.disasterprediction), 
     url(r"^Collapserecord/$",views.collapserecord), 
     url(r"^Civilstructure/$",views.civilstructure), 
-    # url(r"^search/$",views.search), 
+    url(r"^search/$",views.search), 
     url(r'^delete_Comm/(\w+)/$',views.delete_Comm,name='delete_Comm'),
     url(r'^delete_death/(\w+)/$',views.delete_death,name='delete_death'),
     url(r'^delete_civil/(\w+)/$',views.delete_civil,name='delete_civil'),
@@ -31,13 +31,12 @@ urlpatterns = [
     url(r"^sendlist/$",views.sendlist), 
     url(r"^sign_in/$",views.sign_in), 
     url(r"^sign_up/$",views.sign_up), 
-    
-
+    url(r'^update/(\w+)/$',views.update,name="update"),
     url(r'^login/', views.login),
     url(r'^register/', views.register),
     url(r'^logout/', views.logout),
     url(r'^captcha/', include('captcha.urls')),
-
+    url(r'^updateInfo/$',views.updateInfo),
     # url(r'^sendlist/$',views.sendlist),
     url(r'^send/$',views.send,name="send"),
     url(r'^sendinfo/$',views.sendinfo,name="sendinfo"),

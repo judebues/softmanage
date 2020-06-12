@@ -10,11 +10,16 @@ from django.http import HttpResponse,FileResponse
 from django.forms.models import model_to_dict
 from .forms import *
 import hashlib
+from .timework import writeToDB
 
 # Create your views here.
 def home_page(request):
     result = Commdisaster.objects.values()
-    return render(request,'index2.html',{'info':result})
+    dblist = ['Commdisaster','Deathstatistics','Collapserecord','Civilstructure','Disasterrequest']
+    # print("*******************")
+    writeToDB('data.json')
+    # print("*******************")
+    return render(request,'index2.html',{'options':dblist})
     
 
 
@@ -87,24 +92,21 @@ def download_file():
     response['Content-Type'] = 'application/octet-stream' #设置头信息，告诉浏览器这是个文件
     response['Content-Disposition'] = 'attachment;filename="data.json"'
     return FileResponse(response)
-# def search(request):
-#     results={}
-#     if request.method == "POST":
-#         search_code = request.POST.get('search')
-#         if len(search_code) != 19 and len(search_code)!=3: 
-#             return HttpResponse("数据格式输入错误，请重新输入")
-#         elif len(search_code) < 1:
-#             results = Commdisaster.objects.values()
-#         elif len(search_code) == 19:
-#             results = Commdisaster.objects.filter(id=search_code)
-#         elif len(search_code) == 3:
-#             if accordMscodeToTheClass(search_code)!=None:
-#                 results = accordMscodeToTheClass(search_code).objects.values()
-#             else:
-#                 return HttpResponse("error")
-#     if len(results)<1:
-#         return render(request,'searchresult.html',)
-#     return render(request,'datashow.html',{'info':results})
+
+def search(request):
+    results={}
+    dblist = [Commdisaster,Deathstatistics,Collapserecord,Civilstructure,Disasterrequest]
+    dbtemplate = ['CommDisaster.html','DeathStatistics.html','Collapserecord.html','CivilStructure.html','DisasterRequest.html']
+    if request.method == "POST":
+        search_code = request.POST.get('search')
+        db_choose = int(request.POST.get('dbchoice'))-1
+
+        if len(search_code) != 19: 
+            return HttpResponse("数据格式输入错误，请重新输入")
+        else:
+            result=dblist[db_choose].objects.filter(id=search_code)
+            return render(request,dbtemplate[db_choose],{'info':result})
+
 
 def accordMscodeToTheClass(mscode):
     if mscode == '441':
@@ -191,9 +193,36 @@ def delete_request(request,nid):
     result=Disasterrequest.objects.values()
     return render(request,'DisasterRequest.html',{'info':result})
 
+def getDbAccordingId(nid):
+    dblist=[Commdisaster,Deathstatistics,Civilstructure]
+    infolist=['336','111','221']
+    return dblist[infolist.index(nid[12:15])]
 
+def update(request,nid):
+    # result=[]
+    # disasterType = nid[12:15]
+    # if (disasterType == '336'):
+    #     result = Commdisaster.objects.filter(id=dic.get('Code'))
+    # elif(disasterType == '111'):
+    #     Deathstatistics.objects.filter(id=dic.get('Code'))
+    # elif(disasterType == '221'):
+    #     Civilstructure.objects.filter(id=dic.get('Code'))
 
+    result = getDbAccordingId(nid).objects.filter(id=nid)[0]
+    # print(result.__dict__.keys())
+    # print(result[0])
+    di = model_to_dict(result)
+    print(di)
+    return render(request,'update_death.html',{'info':di})
 
+def updateInfo(request):
+    if request.method == "POST":
+        value = dict(request.POST.dict())
+        value.pop('csrfmiddlewaretoken')
+        db = getDbAccordingId(value.get('id'))
+        db.objects.filter(id=value.get('id')).delete()
+        db.objects.create(**value)
+    return redirect("/secondtime/index/")
 
 
 
@@ -282,59 +311,6 @@ class DisasterpredictionViewSet(viewsets.ModelViewSet):
         serializer = DisasterpredictionSerializers(instance=result,many=True)
         return Response(serializer.data)
         
-
-
-
-#         def writeToDb(filepath):
-#     json_data=open(filepath,encoding='utf-8').read()
-#     data=json.loads(json_data,strict=False)
-#     for item in data:
-#         Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
-#         location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
-#         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-
-# def writeToDatabases(filepath,ClassName):
-#     json_data=open(filepath,encoding='utf-8').read()
-#     data=json.loads(json_data,strict=False)
-#     for item in data:
-#         temp = ClassName()
-#         allattr=temp.__dict__.keys()
-#         for i in range(len(allattr)):
-#             temp.allattr[i]=item.get(allattr[i])
-#         temp.save()
-        
-# def theWrongWayToStoreDb(filepath,mscode):
-#     json_data=open(filepath,encoding='utf-8').read()
-#     data=json.loads(json_data,strict=False)
-#     if mscode == '441':
-#         for item in data:
-#             Collapserecord.objects.create(id=item.get('Code'),date=item.get('Date'),
-#         location=item.get('Location'),type=item.get('Type'),status=item.get('Status'),
-#         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-#     elif mscode == '336':
-#         for item in data:
-#             Commdisaster.objects.create(id=item.get('Code'),date=item.get('Date'),
-#         location=item.get('Location'),type=item.get('Type'),grade=item.get('Grade'),
-#         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-#     elif mscode == '221':
-#         for item in data:
-#             Civilstructure.objects.create(id=item.get('Code'),date=item.get('Date'),
-#         location=item.get('Location'),basicallyintactsquare=item.get('Basicallyintactsquare'),
-#         damagedsquare=item.get('Damagedsquare'),distoryedsquare=item.get('Distoryedsquare'),
-#         note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-#     elif mscode == '111':
-#         for item in data:
-#             Deathstatistics.objects.create(id=item.get('Code'),date=item.get('Date'),
-#         location=item.get('Location'),number=item.get('Number'),reportingunit=item.get('ReportingUnit'))
-#     elif mscode == '552':
-#         for item in data:
-#             Disasterprediction.objects.create(id=item.get('Code'),date=item.get('Date'),
-#         location=item.get('Location'),longitude=item.get('Longitude'),latitude=item.get('Latitude'),
-#         depth=item.get('Depth'),magnitude=item.get('Magnitude'),itensity=item.get('Itensity'),
-#         type=item.get('Type'),status=item.get('Status'),note=item.get('Note'),reportingunit=item.get('ReportingUnit'))
-
-
-
 def login(request):
     if request.session.get('is_login', None):
         return redirect("/secondtime/index/")

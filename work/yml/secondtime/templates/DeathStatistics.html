@@ -25,6 +25,7 @@
             <td>{{ item.number }}</td>
             <td>{{ item.reportingunit }}</td>
             <td><a href={% url "delete_death" item.id %}  id ="{{ item.id }}">删除</a></td>
+            <td><a href={% url "update" item.id %}  id ="{{ item.id }}">更新</a></td>
         </tr>
         {% endfor %}
       </tbody>
