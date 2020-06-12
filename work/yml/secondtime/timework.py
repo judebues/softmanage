@@ -25,11 +25,6 @@ def writeToDB(filename):
             country = County.objects.filter(code=code[4:6])[0]
             street = Street.objects.filter(code=code[6:9])[0]
             community = Community.objects.filter(code=code[9:12])[0]
-            print(province)
-            print(type(province))
-            print("*************")
-            print(city)
-            print(type(city))
             dic['Location'] = province.info + city.info + country.info + street.info + community.info
             
             disasterType = code[12:15]
