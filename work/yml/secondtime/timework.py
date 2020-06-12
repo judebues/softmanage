@@ -49,3 +49,7 @@ def timeWorkWriteFileToDb():
     for file in allfile:
         writeToDB(file)
     
+
+def backupDb():
+    print("backup dd!!")
+    os.system('bash ./backupDb.sh')
