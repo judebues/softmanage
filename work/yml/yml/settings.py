@@ -143,13 +143,6 @@ STATICFILES_DIRS = (
 
 CRONJOBS = [
     # 分 时 日 月 周      命令
-<<<<<<< HEAD
-    ('*/20 * * * *', 'secondtime.timework.timeWorkWriteFileToDb','>> ~/data.txt')
-]
-=======
     ('*/20 * * * *', 'secondtime.timework.timeWorkWriteFileToDb','>> ~/data.txt'),
     ('*/20 * * * *', 'secondtime.timework.backupDb','>> ~/db.log'),
-    
-
 ]
->>>>>>> ea648a2f0ab27435d98896c2cc76ce2c9ee9e811
